@@ -1,18 +1,18 @@
-.Home .lander {
+.ProjectsList .lander {
   padding: 80px 0;
   text-align: center;
 }
 
-.Home .lander h1 {
+.ProjectsList .lander h1 {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
 }
 
-.Home .lander p {
+.ProjectsList .lander p {
   color: #999;
 }
 
-.Home .projects h4 {
+.ProjectsList .projects h4 {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   overflow: hidden;
@@ -20,6 +20,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.Home .projects p {
+.ProjectsList .projects p {
   color: #666;
 }

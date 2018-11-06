@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
-import "./MainMenu.css";
+import "./AboutUs.css";
 import { API } from "aws-amplify";
 import { LinkContainer } from "react-router-bootstrap";
 
-export default class MainMenu extends Component {
+export default class AboutUs extends Component {
   constructor(props) {
     super(props);
 
@@ -79,8 +79,11 @@ projects() {
 
   render() {
     return (
-      <div className="MainMenu">
-        {this.props.isAuthenticated ? this.renderProjects() : this.renderLander()}
+      <div className="AboutUs">
+        <div className="lander">
+          <h1>Scratch</h1>
+          <p>A simple note taking app</p>
+        </div>
       </div>
     );
   }

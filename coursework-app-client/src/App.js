@@ -51,50 +51,47 @@ class App extends Component {
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        <Navbar fluid collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to="/">PPP</Link>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
+        <Navbar  fluid collapseOnSelect >
           <Navbar.Collapse>
-            <Nav pullLeft>
-              <NavItem>Login
-            <nav class="navbar navbar-light bg-light">
-                  <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            {this.state.isAuthenticated
+              ? <Fragment>
+                <Nav pullLeft>
+                  <NavItem>
+                    <nav class="navbar navbar-light bg-light">
+                      <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                      </form>
+                    </nav>
+                  </NavItem>
+                  <NavItem>
+                    <DropdownButton title="Search in..">
+                      <MenuItem href="#books">Users</MenuItem>
+                      <MenuItem href="#podcasts">Projects</MenuItem>
+                    </DropdownButton>
+                  </NavItem>
+                  <NavItem href="/">About Us</NavItem>
+                  <NavItem href="/login">Users</NavItem>
+                  <NavItem href="/projectslist">Projects</NavItem>
+                </Nav>
+                <Nav pullRight>
+                  <NavItem>
+                    <DropdownButton title="Profile">
+                      <MenuItem href="#books">My Profile</MenuItem>
+                      <MenuItem href="#podcasts" onClick={this.handleLogout}>Logout</MenuItem>
+                    </DropdownButton>
+                  </NavItem>
+                </Nav>
+              </Fragment>
+              : <Fragment>
+                <LinkContainer to="/signup">
+                  <NavItem>Signup</NavItem>
+                </LinkContainer>
+                <LinkContainer to="/login">
+                  <NavItem>Login</NavItem>
+                </LinkContainer>
+              </Fragment>
+            }
 
-                  </form>
-                </nav>
-              </NavItem>
-              <DropdownButton title="Search in..">
-                <MenuItem href="#books">Users</MenuItem>
-                <MenuItem href="#podcasts">Projects</MenuItem>
-              </DropdownButton>
-              <NavItem>
-                <DropdownButton title="Search in..">
-                  <MenuItem href="#books">Users</MenuItem>
-                  <MenuItem href="#podcasts">Projects</MenuItem>
-                </DropdownButton>
-              </NavItem>
-              <NavItem href="/signup">About Us</NavItem>
-              <NavItem href="/login">Users</NavItem>
-              <NavItem href="/login">Projects</NavItem>
-            </Nav>
-            <Nav pullRight>
-              {this.state.isAuthenticated
-                ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
-                : <Fragment>
-                  <LinkContainer to="/signup">
-                    <NavItem>Signup</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to="/login">
-                    <NavItem>Login</NavItem>
-                  </LinkContainer>
-                </Fragment>
-              }
-            </Nav>
           </Navbar.Collapse>
         </Navbar>
         <Routes childProps={childProps} />

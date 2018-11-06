@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
-import "./Home.css";
+import "./ProjectsList.css";
 import { API } from "aws-amplify";
 import { LinkContainer } from "react-router-bootstrap";
 
-export default class Home extends Component {
+export default class ProjectsList extends Component {
   constructor(props) {
     super(props);
 
@@ -79,7 +79,7 @@ projects() {
 
   render() {
     return (
-      <div className="Home">
+      <div className="ProjectsList">
         {this.props.isAuthenticated ? this.renderProjects() : this.renderLander()}
       </div>
     );
