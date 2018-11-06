@@ -70,7 +70,7 @@ class App extends Component {
                     </DropdownButton>
                   </NavItem>
                   <NavItem href="/">About Us</NavItem>
-                  <NavItem href="/login">Users</NavItem>
+                  <NavItem href="/userslist">Users</NavItem>
                   <NavItem href="/projectslist">Projects</NavItem>
                 </Nav>
                 <Nav pullRight>

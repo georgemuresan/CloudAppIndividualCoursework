@@ -7,12 +7,10 @@ import "./Projects.css";
 import { s3Upload } from "../libs/awsLib";
 
 export default class Notes extends Component {
-	bol: true
   constructor(props) {
     super(props);
 
     this.file = null;
-	this.bol = true;
     this.state = {
   isLoading: null,
   isDeleting: null,
@@ -199,7 +197,7 @@ render() {
 				<ControlLabel><font size="4" color="blue">COLLABORATORS</font></ControlLabel>
 				<div class="form-group">
 					<select multiple class="form-control" id="collabID" name="collaborators" onClick={this.handleCollaborators}>
-						<option selected={this.bol}>1</option>
+						<option selected={true}>1</option>
 						<option>2</option>
 						<option>3</option>
 						<option>4</option>
