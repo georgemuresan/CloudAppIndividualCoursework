@@ -1,0 +1,13 @@
+.NewProject form {
+  padding-bottom: 15px;
+}
+
+.NewProject form .pname textarea {
+  height: 40px;
+  font-size: 18px;
+}
+
+.NewProject form .pdesc textarea {
+  height: 200px;
+  font-size: 18px;
+}
