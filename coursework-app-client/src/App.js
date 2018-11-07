@@ -51,7 +51,7 @@ class App extends Component {
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        <Navbar  fluid collapseOnSelect >
+        <Navbar fluid collapseOnSelect >
           <Navbar.Collapse>
             {this.state.isAuthenticated
               ? <Fragment>
@@ -83,12 +83,14 @@ class App extends Component {
                 </Nav>
               </Fragment>
               : <Fragment>
-                <LinkContainer to="/signup">
-                  <NavItem>Signup</NavItem>
-                </LinkContainer>
-                <LinkContainer to="/login">
-                  <NavItem>Login</NavItem>
-                </LinkContainer>
+                <Nav pullRight>
+                  <LinkContainer to="/signup">
+                    <NavItem>Signup</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/login">
+                    <NavItem>Login</NavItem>
+                  </LinkContainer>
+                </Nav>
               </Fragment>
             }
 

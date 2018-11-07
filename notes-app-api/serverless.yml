@@ -73,17 +73,6 @@ functions:
           method: get
           cors: true
           authorizer: aws_iam
-  getUser:
-    # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /notes/{id}
-    # - method: GET request
-    handler: getUser.main
-    events:
-      - http:
-          path: User/{id}
-          method: get
-          cors: true
-          authorizer: aws_iam
   list:
     # Defines an HTTP API endpoint that calls the main function in list.js
     # - path: url path is /notes
@@ -92,17 +81,6 @@ functions:
     events:
       - http:
           path: Project
-          method: get
-          cors: true
-          authorizer: aws_iam
-  listUser:
-    # Defines an HTTP API endpoint that calls the main function in list.js
-    # - path: url path is /notes
-    # - method: GET request
-    handler: listUser.main
-    events:
-      - http:
-          path: User
           method: get
           cors: true
           authorizer: aws_iam
@@ -117,17 +95,6 @@ functions:
           method: put
           cors: true
           authorizer: aws_iam
-  updateUser:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
-    # - method: PUT request
-    handler: updateUser.main
-    events:
-      - http:
-          path: User/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
   delete:
     # Defines an HTTP API endpoint that calls the main function in delete.js
     # - path: url path is /notes/{id}
@@ -139,21 +106,3 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
-  deleteUser:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
-    handler: deleteUser.main
-    events:
-      - http:
-          path: User/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam        
-#functions:
-  #hello:
-   # handler: handler.hello
-    #events:
-     # - http:
-      #    path: hello
-       #   method: get

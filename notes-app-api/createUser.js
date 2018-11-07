@@ -19,7 +19,7 @@ export async function main(event, context, callback) {
     Item: {
       userID: event.requestContext.identity.cognitoIdentityId,
       userFirstName: data.userFirstName,
-      userLastName: data.userFirstName,
+      userLastName: data.userLastName,
       userDepartment: data.userDepartment,
 	    userSkills: data.userSkills,
       joinedAt: Date.now()
