@@ -10,68 +10,68 @@ export default class UsersList extends Component {
 
     this.state = {
       isLoading: true,
-      Project: []
+      User: []
     };
   }
   async componentDidMount() {
+    
   if (!this.props.isAuthenticated) {
     return;
   }
 
   try {
-    const Project = await this.projects();
-    this.setState({ Project });
+    const User = await this.users();
+    this.setState({ User });
   } catch (e) {
     alert(e);
   }
-
+  
   this.setState({ isLoading: false });
+  
 }
 
-projects() {
-  return API.get("Project", "/Project");
+users() {
+  return API.get("User", "/User");
 }
 
-  renderProjectsList(projects) {
-    return [{}].concat(projects).map(
-    (project, i) =>
+  renderUsersList(users) {
+    return [{}].concat(users).map(
+    (user, i) =>
       i !== 0
         ? <LinkContainer
-            key={project.projectID}
-            to={`/Project/${project.projectID}`}
+            key={user.userID}
+            to={`/User/${user.userID}`}
           >
-            <ListGroupItem header={project.projectName.trim().split("\n")[0]}>
-              {"Created: " + new Date(project.createdAt).toLocaleString()}
+            <ListGroupItem header={user.userFirstName.trim().split("\n")[0]}>
+              {"Joined: " + new Date(user.joinedAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
         : <LinkContainer
-            key="new"
-            to="/Project/new"
-          >
-            <ListGroupItem>
-              <h4>
-                <b>{"\uFF0B"}</b> Create a new project
-              </h4>
-            </ListGroupItem>
-          </LinkContainer>
+        key=""
+        to=""
+      >
+        <ListGroupItem>
+         
+        </ListGroupItem>
+      </LinkContainer>
   );
   }
 
   renderLander() {
     return (
       <div className="lander">
-        <h1>Scratch</h1>
-        <p>A simple note taking app</p>
+        <h1>Not</h1>
+        <p>Authenticated</p>
       </div>
     );
   }
 
-  renderProjects() {
+  renderUsers() {
     return (
-      <div className="projects">
+      <div className="users">
         <PageHeader>Users List</PageHeader>
         <ListGroup>
-          {!this.state.isLoading && this.renderProjectsList(this.state.Project)}
+          {!this.state.isLoading && this.renderUsersList(this.state.User)}
         </ListGroup>
       </div>
     );
@@ -80,7 +80,7 @@ projects() {
   render() {
     return (
       <div className="UsersList">
-        {this.props.isAuthenticated ? this.renderProjects() : this.renderLander()}
+        {this.props.isAuthenticated ? this.renderUsers() : this.renderLander()}
       </div>
     );
   }

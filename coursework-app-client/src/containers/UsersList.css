@@ -12,7 +12,7 @@
   color: #999;
 }
 
-.UsersList .projects h4 {
+.UsersList .users h4 {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   overflow: hidden;
@@ -20,6 +20,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.UsersList .projects p {
+.UsersList .users p {
   color: #666;
 }

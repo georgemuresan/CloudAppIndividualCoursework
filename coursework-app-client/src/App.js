@@ -76,7 +76,11 @@ class App extends Component {
                 <Nav pullRight>
                   <NavItem>
                     <DropdownButton title="Profile">
-                      <MenuItem href="#books">My Profile</MenuItem>
+                      <MenuItem >
+                        <LinkContainer to="/myprofile">
+                          <NavItem>My Profile</NavItem>
+                        </LinkContainer>
+                      </MenuItem>
                       <MenuItem href="#podcasts" onClick={this.handleLogout}>Logout</MenuItem>
                     </DropdownButton>
                   </NavItem>

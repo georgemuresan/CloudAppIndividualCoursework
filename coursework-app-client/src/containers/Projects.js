@@ -6,7 +6,7 @@ import config from "../config";
 import "./Projects.css";
 import { s3Upload } from "../libs/awsLib";
 
-export default class Notes extends Component {
+export default class Projects extends Component {
   constructor(props) {
     super(props);
 
@@ -46,9 +46,6 @@ export default class Notes extends Component {
     }
   }
 
-  fetchCollaborators(){
-	  
-  }
   getProject() {
     return API.get("Project", `/Project/${this.props.match.params.id}`);
   }
