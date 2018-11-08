@@ -11,6 +11,7 @@ import Signup from "./containers/Signup";
 import NewProject from "./containers/NewProject";
 import Projects from "./containers/Projects";
 import Users from "./containers/Users";
+import ProjectView from "./containers/ProjectView";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 
@@ -24,6 +25,7 @@ export default ({ childProps }) =>
     <AuthenticatedRoute path="/projectslist" exact component={ProjectsList} props={childProps} />
     <AuthenticatedRoute path="/Project/new" exact component={NewProject} props={childProps} />
     <AuthenticatedRoute path="/User/:id" exact component={Users} props={childProps} />
+    <AuthenticatedRoute path="/Project/:id" exact component={ProjectView} props={childProps} />
     <AuthenticatedRoute path="/Project/:id" exact component={Projects} props={childProps} />
     
     { /* Finally, catch all unmatched routes */}

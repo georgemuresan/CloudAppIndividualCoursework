@@ -1,8 +1,8 @@
-.Projects form {
+.ProjectView form {
   padding-bottom: 15px;
 }
 
-.Projects form textarea {
+.ProjectView form textarea {
   height: 45px;
   font-size: 18px;
 }
