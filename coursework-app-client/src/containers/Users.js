@@ -51,14 +51,23 @@ export default class Users extends Component {
       <div className="Users">
         {this.state.user &&
           <form >
-            <FormGroup controlId="projectName">
-              <ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
+            <FormGroup controlId="userFirstNameTitle">
+              <ControlLabel><font size="4" color="blue">First Name</font></ControlLabel>
             </FormGroup>
-            <FormGroup controlId="projectDescription">
-              <ControlLabel><font size="4" color="blue">PROJECT DESCRIPTION</font></ControlLabel>
+            <FormGroup controlId="userFirstName">
+              <ControlLabel><font size="2" color="black">{this.state.userFirstName}</font></ControlLabel>
             </FormGroup>
-            <FormGroup controlId="status">
-              <ControlLabel><font size="4" color="blue">STATUS:</font><font size="3" color="red"><i> va trebui sa mai bag un atribut la project - statusul</i></font></ControlLabel>
+            <FormGroup controlId="userLastNameTitle">
+              <ControlLabel><font size="4" color="blue">First Name</font></ControlLabel>
+            </FormGroup>
+            <FormGroup controlId="userLastName">
+              <ControlLabel><font size="2" color="black">{this.state.userLastName}</font></ControlLabel>
+            </FormGroup>
+            <FormGroup controlId="userDepartmentTitle">
+              <ControlLabel><font size="4" color="blue">First Name</font></ControlLabel>
+            </FormGroup>
+            <FormGroup controlId="userDepartment">
+              <ControlLabel><font size="2" color="black">{this.state.userDepartment}</font></ControlLabel>
             </FormGroup>
           </form>}
       </div>

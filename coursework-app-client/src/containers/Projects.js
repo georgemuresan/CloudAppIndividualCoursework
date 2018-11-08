@@ -158,7 +158,7 @@ render() {
 				
 			<ControlLabel><font size="4" color="blue">PROJECT ATTRIBUTES</font></ControlLabel>
 						<div class="checkbox">
-							<label><input type="checkbox" name="box" value="Java developer" onClick={this.handleAttributes}/>Java developer</label>
+							<label><input type="checkbox" name="box" value="Java developer" onClick={this.ss}/>Java developer</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" name="box" value="Database specialist" onClick={this.handleAttributes}/>Database specialist</label>

@@ -14,6 +14,7 @@ export default class Signup extends Component {
       userLastName: "",
       userDepartment: "",
       userSkills: [],
+      userStatus: "Developer",
       email: "",
       password: "",
       confirmPassword: "",
@@ -74,6 +75,8 @@ export default class Signup extends Component {
       await Auth.confirmSignUp(this.state.email, this.state.confirmationCode);
       await Auth.signIn(this.state.email, this.state.password);
       await this.createUser({
+        userEmail: this.state.email,
+        userStatus: this.state.userStatus,
         userFirstName: this.state.userFirstName,
         userLastName: this.state.userLastName,
         userDepartment: this.state.userDepartment,
@@ -174,6 +177,9 @@ export default class Signup extends Component {
             onChange={this.handleChange}
             type="password"
           />
+        </FormGroup>
+        <FormGroup controlId="userStatus" bsSize="large">
+          <ControlLabel>User Status: Developer</ControlLabel>
         </FormGroup>
         <LoaderButton
           block

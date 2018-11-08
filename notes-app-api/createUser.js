@@ -18,9 +18,12 @@ export async function main(event, context, callback) {
     // - 'createdAt': current Unix timestamp
     Item: {
       userID: event.requestContext.identity.cognitoIdentityId,
+      userEmail: data.userEmail,
+      userStatus: data.userStatus,
       userFirstName: data.userFirstName,
       userLastName: data.userLastName,
       userDepartment: data.userDepartment,
+      userDescription: data.userDescription,
 	    userSkills: data.userSkills,
       joinedAt: Date.now()
     }
