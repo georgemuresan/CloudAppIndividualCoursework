@@ -19,11 +19,12 @@ export async function main(event, context, callback) {
     Item: {
       userID: event.requestContext.identity.cognitoIdentityId,
       projectID: uuid.v1(),
+      projectStatus: data.projectStatus,
       projectName: data.projectName,
-	  projectDescription: data.projectDescription,
-	  attributes: data.attributes,
+      projectDescription: data.projectDescription,
+      attributes: data.attributes,
       attachment: data.attachment,
-	  collaborators: data.collaborators,
+      collaborators: data.collaborators,
       createdAt: Date.now()
     }
   };
@@ -32,7 +33,7 @@ export async function main(event, context, callback) {
     await dynamoDbLib.call("put", params);
     callback(null, success(params.Item));
   } catch (e) {
-	console.log(e);
+    console.log(e);
     callback(null, failure({ status: false }));
   }
 }

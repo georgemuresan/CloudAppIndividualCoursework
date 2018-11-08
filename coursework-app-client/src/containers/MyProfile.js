@@ -178,62 +178,7 @@ for (var i = 0; i < order.length; i++) {
 return (<div>
   {values}
  </div>);
-  /*
-    return ( <ul>
-      {this.state.userSkills.map(function (name, index) {
-
-        return <div class="checkbox"><label><input type="checkbox" name="box" value={name} checked key={index}  />{name}</label></div>;
-      })}
-      {this.state.missingSkills.map(function (name, index) {
-
   
-        return <div class="checkbox"><label><input type="checkbox" name="box" value={name} key={index} />{name}</label></div>;
-      })}
-
-    </ul>);
-  
-    return (
-      <ul>
-        {this.state.userSkills.map(function (name, index) {
-
-          function handleSkills() {
-            var skillsChecked = [];
-            var number = 0;
-            var boxes = document.getElementsByName("box");
-            for (var e = 0; e < boxes.length; e++) {
-              if (boxes[e].checked == true) {
-                skillsChecked.push(boxes[e].value);
-              }
-            }
-            this.setState({
-              userSkills: skillsChecked
-            });
-          };
-
-          return <div class="checkbox"><label><input type="checkbox" name="box" value={name} checked key={index} onClick={handleSkills} />{name}</label></div>;
-        })}
-        {this.state.missingSkills.map(function (name, index) {
-
-          function handleSkills() {
-            var skillsChecked = [];
-            var number = 0;
-            var boxes = document.getElementsByName("box");
-            for (var e = 0; e < boxes.length; e++) {
-              if (boxes[e].checked == true) {
-                skillsChecked.push(boxes[e].value);
-              }
-            }
-            this.setState({
-              userSkills: skillsChecked
-            });
-          };
-
-          return <div class="checkbox"><label><input type="checkbox" name="box" value={name} key={index} onClick={handleSkills} />{name}</label></div>;
-        })}
-
-      </ul>
-    );
-    */
   }
 
   handleSkills = event => {

@@ -13,13 +13,33 @@ export default class NewProject extends Component {
     this.file = null;
 
     this.state = {
+			allSkills: ["Java", "C++", "Assembly", "bb", "Python", "php", "sql", "swing", "css", "html", "json", "csv"],
       isLoading: null,
+      project: null,
       projectName: "",
-	  projectDescription: "",
-	  attributes: [],
-	  collaborators: []
+      projectDescription: "",
+      attributes: [],
+			collaborators: [],
+			projectStatus: "Pending",
+      User: []
     };
   }
+
+	
+  async componentDidMount() {
+    try {
+     
+      const us = await this.users();
+		
+      this.setState({User: us });
+    } catch (e) {
+      alert(e);
+    }
+	}
+	
+	users() {
+		return API.get("User", "/User");
+	}
 
   validateForm() {
     return this.state.projectName.length > 0 && this.state.projectDescription.length > 0 && this.state.attributes.length > 0;
@@ -79,7 +99,8 @@ export default class NewProject extends Component {
       : null;
 	  
     await this.createProject({
-	  attachment,
+		attachment,
+		projectStatus: "Active",
       projectName: this.state.projectName,
 	  projectDescription: this.state.projectDescription,
 	  attributes: this.state.attributes,
@@ -98,6 +119,34 @@ createProject(project) {
   });
 }
  
+renderProjectAttributes(){
+
+	var skillset = this.state.allSkills;
+    var values = [];
+    for (var i = 0; i < skillset.length; i++) {
+      values.push(<div class="checkbox"><label><input type="checkbox" name="box" value={skillset[i]} onClick={this.handleAttributes}/>{skillset[i]}</label></div>);
+    }
+    return (<div>
+			{values}
+		 </div>);
+
+}
+renderProjectCollaborators(){
+
+	var list = this.state.User;
+    var values = [];
+    for (var i = 0; i < list.length; i++) {
+			const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = list[i];
+      values.push(<option value={JSON.stringify(list[i])}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
+    }
+    return ( <div class="form-group">
+    <select multiple class="form-control" id="collabID" name="collaborators" onClick={this.handleCollaborators}>
+      {values}
+      </select>
+              </div>);
+
+}
+
   render() {
     return (
       <div className="NewProject">
@@ -124,20 +173,8 @@ createProject(project) {
 			</div>
 				<div class="pabilities">
 					<ControlLabel><font size="4" color="blue">PROJECT ATTRIBUTES</font></ControlLabel>
-						<div class="checkbox">
-							<label><input type="checkbox" name="box" value="Java developer" onClick={this.handleAttributes}/>Java developer</label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" name="box" value="Database specialist" onClick={this.handleAttributes}/>Database specialist</label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" name="box" value="Security manager" onClick={this.handleAttributes}/>Security manager</label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" name="box" value="Design editor" onClick={this.handleAttributes}/>Design editor</label>
-						</div>	
-
-				</div>
+					</div>
+						{this.renderProjectAttributes()}
 			<FormGroup controlId="file">
 				<ControlLabel><font size="4" color="blue">PROJECT ATTACHMENT</font></ControlLabel>
 				<FormControl onChange={this.handleFileChange} type="file" />
@@ -145,13 +182,7 @@ createProject(project) {
 			<FormGroup controlId="collaborators">
 				<ControlLabel><font size="4" color="blue">COLLABORATORS</font></ControlLabel>
 				<div class="form-group">
-					<select multiple class="form-control" id="collabID" name="collaborators" onClick={this.handleCollaborators}>
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-					</select>
+				{this.renderProjectCollaborators()}
 				</div>
 			</FormGroup>
 			<FormGroup controlId="status">
