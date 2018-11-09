@@ -93,6 +93,7 @@ export default class MyProfile extends Component {
         userLastName: this.state.userLastName,
         userDepartment: this.state.userDepartment,
         userDescription: this.state.userDescription,
+        userStatus: this.state.userStatus,
         userSkills: this.state.userSkills,
       });
       this.props.history.push("/");
@@ -106,7 +107,7 @@ export default class MyProfile extends Component {
 
    
     var currentUserState = this.state.userStatus;
-    var boxes = document.getElementsByName("box");
+    var boxes = document.getElementsByName("boxst");
     if (boxes[0].checked == true) {
       currentUserState = "Developer, pending to become a Project Manager";
     } else {
@@ -266,7 +267,7 @@ export default class MyProfile extends Component {
               <form>
                 <div class="pstatus">
                   <div class="checkbox">
-                    <label><input type="checkbox" name="box" value="Submit query to become a Project Manager" onClick={this.handleRequest} />Submit query to become a Project Manager</label>
+                    <label><input type="checkbox" name="boxst" value="Submit query to become a Project Manager" onClick={this.handleRequest} />Submit query to become a Project Manager</label>
                   </div>
                 </div>
               </form>}

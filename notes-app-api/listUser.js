@@ -11,9 +11,7 @@ export async function main(event, context, callback) {
     // - ':userId': defines 'userId' to be Identity Pool identity id
     //   of the authenticated user
   };
-  var AWS = require('aws-sdk');
-  var docClient = new AWS.DynamoDB.DocumentClient();
-
+  
   try {
     const result = await dynamoDbLib.call("scan", params);
     callback(null, success(result.Items));

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { API, Storage } from "aws-amplify";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import "./Users.css";
+import "./UsersApproval.css";
 import LoaderButton from "../components/LoaderButton";
 
-export default class Users extends Component {
+export default class UsersApproval extends Component {
   constructor(props) {
     super(props);
 
@@ -12,6 +12,7 @@ export default class Users extends Component {
       isLoading: false,
       isDeleting: null,
       user: null,
+      currentUserID: "",
       userEmail: "",
       userStatus: "",
       userFirstName: "",
@@ -20,6 +21,7 @@ export default class Users extends Component {
       userDescription: "",
       userSkills: [],
       emailValue: false
+
     };
   }
 
@@ -27,9 +29,10 @@ export default class Users extends Component {
     try {
       const user = await this.getUser();
       
-      const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
+      const { userID, userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
       this.setState({
         user,
+        currentUserID : userID,
         userEmail,
         userStatus,
         userFirstName,
@@ -44,10 +47,14 @@ export default class Users extends Component {
   }
 
   getUser() {
-   // alert(this.props.match.params.id);
     return API.get("User", `/User/chosen/${this.props.match.params.id}`);
   }
 
+  saveUser(user) {
+    return API.put("User", `/User/chosen/${this.state.currentUserID}`, {
+      body: user
+    });
+  }
 
   formatFilename(str) {
     return str.replace(/^\w+-/, "");
@@ -64,18 +71,65 @@ export default class Users extends Component {
       );
    }
 
+   
+  handleApprove = async event => {
+    event.preventDefault();
+
+    this.setState({ isLoading: true,
+      userStatus: "Project Manager" });
+    try {
+
+      await this.saveUser({
+        userStatus: "Project Manager",
+        userFirstName: this.state.userFirstName,
+        userLastName: this.state.userLastName,
+        userDepartment: this.state.userDepartment,
+        userDescription: this.state.userDescription,
+        userSkills: this.state.userSkills,
+      });
+      this.props.history.push("/");
+    } catch (e) {
+      alert(e);
+      this.setState({ isLoading: false });
+    }
+  }
+
    handleEmail = async event => {
     this.setState({
       newUser: true
     });
   }
+ 
+  handleDecline = async event => {
+    event.preventDefault();
 
+    this.setState({ isLoading: true,
+    userStatus: "Developer" });
 
+    try {
+
+      await this.saveUser({
+        userStatus: "Developer",
+        userFirstName: this.state.userFirstName,
+        userLastName: this.state.userLastName,
+        userDepartment: this.state.userDepartment,
+        userDescription: this.state.userDescription,
+        userSkills: this.state.userSkills,
+      });
+      this.props.history.push("/");
+    } catch (e) {
+      alert(e);
+      this.setState({ isLoading: false });
+    }
+  }
   render() {
     return (
       <div className="Users">
         {this.state.user &&
           <form >
+            <FormGroup controlId="titlePage">
+              <ControlLabel><font size="4" color="blue">USER REQUEST</font></ControlLabel>
+            </FormGroup>
              <FormGroup controlId="userStatusTitle">
               <ControlLabel><font size="4" color="blue">User status: </font></ControlLabel>
             </FormGroup>
@@ -120,11 +174,20 @@ export default class Users extends Component {
             </FormGroup>
             <LoaderButton
               block
+              bsStyle="primary"
+              bsSize="large"
+              isLoading={this.state.isLoading}
+              onClick={this.handleApprove}
+              text="APPROVE"
+              loadingText="Processing..."
+            />
+             <LoaderButton
+              block
               bsStyle="danger"
               bsSize="large"
               isLoading={this.state.isLoading}
-              onClick={this.handleEmail}
-              text="EMAIL"
+              onClick={this.handleDecline}
+              text="DECLINE"
               loadingText="Processing..."
             />
           </form>}

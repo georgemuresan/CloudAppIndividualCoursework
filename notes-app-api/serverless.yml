@@ -73,6 +73,17 @@ functions:
           method: get
           cors: true
           authorizer: aws_iam
+  getUserChosen:
+    # Defines an HTTP API endpoint that calls the main function in get.js
+    # - path: url path is /notes/{id}
+    # - method: GET request
+    handler: getUserChosen.main
+    events:
+      - http:
+          path: User/chosen/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
   getUser:
     # Defines an HTTP API endpoint that calls the main function in get.js
     # - path: url path is /notes/{id}
@@ -84,6 +95,7 @@ functions:
           method: get
           cors: true
           authorizer: aws_iam
+  
   list:
     # Defines an HTTP API endpoint that calls the main function in list.js
     # - path: url path is /notes
@@ -115,6 +127,17 @@ functions:
     events:
       - http:
           path: Project/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+  updateUserChosen:
+    # Defines an HTTP API endpoint that calls the main function in update.js
+    # - path: url path is /notes/{id}
+    # - method: PUT request
+    handler: updateUserChosen.main
+    events:
+      - http:
+          path: User/chosen/{id}
           method: put
           cors: true
           authorizer: aws_iam
