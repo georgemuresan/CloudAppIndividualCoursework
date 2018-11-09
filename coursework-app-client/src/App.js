@@ -13,7 +13,8 @@ class App extends Component {
 
     this.state = {
       isAuthenticated: false,
-      isAuthenticating: true
+      isAuthenticating: true,
+      newSearch: "",
     };
   }
 
@@ -42,6 +43,15 @@ class App extends Component {
     this.props.history.push("/login");
   }
 
+  updateInput(key, value) {
+    // update react state
+    this.setState({ [key]: value });
+
+    // update localStorage
+    localStorage.setItem(key, value);
+  }
+  
+
   render() {
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
@@ -59,14 +69,22 @@ class App extends Component {
                   <NavItem>
                     <nav class="navbar navbar-light bg-light">
                       <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  onChange={e => this.updateInput("newSearch", e.target.value)} />
                       </form>
                     </nav>
                   </NavItem>
-                  <NavItem>
+                  <NavItem>     
                     <DropdownButton title="Search in..">
-                      <MenuItem href="#books">Users</MenuItem>
-                      <MenuItem href="#podcasts">Projects</MenuItem>
+                      <MenuItem >
+                        <LinkContainer to="/userssearch">
+                          <NavItem>Users</NavItem>
+                        </LinkContainer>
+                      </MenuItem>
+                      <MenuItem >
+                        <LinkContainer to="/projectssearch">
+                          <NavItem>Projects</NavItem>
+                        </LinkContainer>
+                      </MenuItem>
                     </DropdownButton>
                   </NavItem>
                   <NavItem href="/">About Us</NavItem>

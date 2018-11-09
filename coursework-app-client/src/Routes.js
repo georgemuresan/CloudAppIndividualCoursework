@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import ProjectsList from "./containers/ProjectsList";
 import UsersList from "./containers/UsersList";
+import UsersSearch from "./containers/UsersSearch";
 import MyProfile from "./containers/MyProfile";
 import AboutUs from "./containers/AboutUs";
 import NotFound from "./containers/NotFound";
@@ -10,6 +11,7 @@ import AppliedRoute from "./components/AppliedRoute";
 import Signup from "./containers/Signup";
 import NewProject from "./containers/NewProject";
 import Projects from "./containers/Projects";
+import ProjectSearch from "./containers/ProjectSearch";
 import Users from "./containers/Users";
 import ProjectView from "./containers/ProjectView";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
@@ -22,6 +24,8 @@ export default ({ childProps }) =>
     <UnauthenticatedRoute path="/signup" exact component={Signup} props={childProps} />
     <AuthenticatedRoute path="/userslist" exact component={UsersList} props={childProps} />
     <AuthenticatedRoute path="/myprofile" exact component={MyProfile} props={childProps} />
+    <AuthenticatedRoute path="/userssearch" exact component={UsersSearch} props={childProps} />
+    <AuthenticatedRoute path="/projectssearch" exact component={ProjectSearch} props={childProps} />
     <AuthenticatedRoute path="/projectslist" exact component={ProjectsList} props={childProps} />
     <AuthenticatedRoute path="/Project/new" exact component={NewProject} props={childProps} />
     <AuthenticatedRoute path="/User/:id" exact component={Users} props={childProps} />

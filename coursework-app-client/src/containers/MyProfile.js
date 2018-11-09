@@ -93,6 +93,7 @@ export default class MyProfile extends Component {
         userLastName: this.state.userLastName,
         userDepartment: this.state.userDepartment,
         userDescription: this.state.userDescription,
+        userSkills: this.state.userSkills,
       });
       this.props.history.push("/");
     } catch (e) {
@@ -103,8 +104,7 @@ export default class MyProfile extends Component {
 
   handleRequest = event => {
 
-    alert(this.state.userSkills[0]);
-    alert(this.state.allSkills.includes(this.state.userSkills[0]));
+   
     var currentUserState = this.state.userStatus;
     var boxes = document.getElementsByName("box");
     if (boxes[0].checked == true) {
@@ -149,36 +149,36 @@ export default class MyProfile extends Component {
 
   renderSkills() {
 
-    var order =[];
+    var order = [];
 
 
-    this.state.userSkills.forEach(function(entry) {
+    this.state.userSkills.forEach(function (entry) {
       var newR = {
         skill: entry,
         present: true,
       };
       order.push(newR);
-  });
-  this.state.missingSkills.forEach(function(entry) {
-    var newR = {
-      skill: entry,
-      present: false,
-    };
-    order.push(newR);
-});
+    });
+    this.state.missingSkills.forEach(function (entry) {
+      var newR = {
+        skill: entry,
+        present: false,
+      };
+      order.push(newR);
+    });
 
-var values = [];
-for (var i = 0; i < order.length; i++) {
-  if (order[i].present){
-    values.push(<div class="checkbox"><label><input type="checkbox" name="box" value={order[i].skill} checked key={i}  />{order[i].skill}</label></div>);
-  } else {
-    values.push(<div class="checkbox"><label><input type="checkbox" name="box" value={order[i].skill} key={i}  />{order[i].skill}</label></div>);
-  }
-}
-return (<div>
-  {values}
- </div>);
-  
+    var values = [];
+    for (var i = 0; i < order.length; i++) {
+      if (order[i].present) {
+        values.push(<div class="checkbox"><label><input type="checkbox" name="box" onClick={this.handleSkills} value={order[i].skill} checked key={i} />{order[i].skill}</label></div>);
+      } else {
+        values.push(<div class="checkbox"><label><input type="checkbox" name="box" onClick={this.handleSkills} value={order[i].skill} key={i} />{order[i].skill}</label></div>);
+      }
+    }
+    return (<div>
+      {values}
+    </div>);
+
   }
 
   handleSkills = event => {
@@ -190,9 +190,12 @@ return (<div>
         skillsChecked.push(boxes[e].value);
       }
     }
+    var missing = [...this.state.allSkills].filter(x => !skillsChecked.includes(x))
     this.setState({
-      userSkills: skillsChecked
+      userSkills: skillsChecked,
+      missingSkills: missing
     });
+    this.render();
   };
 
   //FOR SIMPLY LISTINg WITH BULLET POINTS
