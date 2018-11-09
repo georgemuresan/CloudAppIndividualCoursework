@@ -59,38 +59,27 @@ export default class Projects extends Component {
     }
   }
 
-  getMissingUsers(allusers, collbusers){
+  getMissingUsers(allusers, collbusers) {
 
 
     //Find values that are in allusers but not in collbusers
-var uniqueResultOne = allusers.filter(function(obj) {
-  return !collbusers.some(function(obj2) {
-      return obj.userID == JSON.parse(obj2).userID;
-  });
-});
+    var uniqueResultOne = allusers.filter(function (obj) {
+      return !collbusers.some(function (obj2) {
+        return obj.userID == JSON.parse(obj2).userID;
+      });
+    });
 
-return uniqueResultOne;
+    return uniqueResultOne;
 
-    
+
   }
-
-  //getMissingUsers(secondArray){
-  //  return function(current){
-  //    return secondArray.filter(function(other){
-  //      alert(other.userID);
-  //      alert(other.userID);
-  //      return other.userID == current.userID}).length == 0;
-  //  }
-
-    
-//  }
 
   users() {
     return API.get("User", "/User");
   }
 
   getProject() {
-    return API.get("Project", `/Project/${this.props.match.params.id}`);
+    return API.get("Project", `/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`);
   }
 
   validateForm() {
@@ -177,25 +166,25 @@ return uniqueResultOne;
     }
   }
 
-  handleCollaborators = event =>{
-		var collabs = document.getElementsByName("collaborators");
-		var multiselect = collabs[0];		
-		var resultCollabs = [];
-		for (var i=0, eachOption=multiselect.length; i<eachOption; i++) {
-			var opt = multiselect[i];
-			if (opt.selected) {
-				resultCollabs.push(opt.value);
-			}
-		}
-		this.setState({
-			collaborators: resultCollabs
-		});	
-	 }
+  handleCollaborators = event => {
+    var collabs = document.getElementsByName("collaborators");
+    var multiselect = collabs[0];
+    var resultCollabs = [];
+    for (var i = 0, eachOption = multiselect.length; i < eachOption; i++) {
+      var opt = multiselect[i];
+      if (opt.selected) {
+        resultCollabs.push(opt.value);
+      }
+    }
+    this.setState({
+      collaborators: resultCollabs
+    });
+  }
 
   renderCollaborators() {
     var order = [];
 
-  
+
     this.state.oldCollaborators.forEach(function (entry) {
       var newR = {
         user: JSON.parse(entry),
@@ -210,23 +199,23 @@ return uniqueResultOne;
       };
       order.push(newR);
     });
-    
+
     var values = [];
-      for (var i = 0; i < order.length; i++) {
-        var usrSet = order[i];
-        //alert(order[0].user.userID);
-        const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = usrSet.user;
-        if (usrSet.present) {
-          values.push(<option selected={true} value={JSON.stringify(usrSet.user)}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
-        } else {
-          values.push(<option value={JSON.stringify(usrSet.user)}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
-        }
+    for (var i = 0; i < order.length; i++) {
+      var usrSet = order[i];
+      //alert(order[0].user.userID);
+      const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = usrSet.user;
+      if (usrSet.present) {
+        values.push(<option selected={true} value={JSON.stringify(usrSet.user)}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
+      } else {
+        values.push(<option value={JSON.stringify(usrSet.user)}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
       }
-      return ( <div class="form-group">
+    }
+    return (<div class="form-group">
       <select multiple class="form-control" id="collabID" name="collaborators" onClick={this.handleCollaborators}>
         {values}
-        </select>
-                </div>);
+      </select>
+    </div>);
 
   }
   renderSkills() {
@@ -263,48 +252,48 @@ return uniqueResultOne;
 
   }
 
-  handleStatusChange = event =>{
-		var selects = document.getElementsByName("stat");
-		
-		var resultStat = "";
-		for (var i=0, eachOption=selects.length; i<eachOption; i++) {
-			var opt = selects[i];
-			if (opt.selected) {
-				resultStat = opt.value;
-			}
-		}
-		this.setState({
-			projectStatus: resultStat
-		});	
-   }
-   
-  renderStatus(){
+  handleStatusChange = event => {
+    var selects = document.getElementsByName("stat");
+
+    var resultStat = "";
+    for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+      var opt = selects[i];
+      if (opt.selected) {
+        resultStat = opt.value;
+      }
+    }
+    this.setState({
+      projectStatus: resultStat
+    });
+  }
+
+  renderStatus() {
     var currentProjStatus = this.state.projectStatus;
 
-    
+
     var values = [];
-    
-    if (currentProjStatus === "Active"){
+
+    if (currentProjStatus === "Active") {
       values.push(<option value="Pending" name="stat">Pending</option>);
       values.push(<option value="Active" selected name="stat">Active</option>);
-      values.push(<option value="Completed"  name="stat">Completed</option>);
-    } else 
-    if (currentProjStatus === "Completed"){
-      values.push(<option value="Pending" name="stat" >Pending</option>);
-      values.push(<option value="Active"  name="stat">Active</option>);
-      values.push(<option value="Completed" selected name="stat">Completed</option>);
-    } else 
-    if (currentProjStatus === "Pending"){
-     
-      values.push(<option value="Pending" selected  name="stat">Pending</option>);
-      values.push(<option value="Active" name="stat" >Active</option>);
-      values.push(<option value="Completed"  name="stat">Completed</option>);
-    }
-    
+      values.push(<option value="Completed" name="stat">Completed</option>);
+    } else
+      if (currentProjStatus === "Completed") {
+        values.push(<option value="Pending" name="stat" >Pending</option>);
+        values.push(<option value="Active" name="stat">Active</option>);
+        values.push(<option value="Completed" selected name="stat">Completed</option>);
+      } else
+        if (currentProjStatus === "Pending") {
+
+          values.push(<option value="Pending" selected name="stat">Pending</option>);
+          values.push(<option value="Active" name="stat" >Active</option>);
+          values.push(<option value="Completed" name="stat">Completed</option>);
+        }
+
 
     return (<FormControl componentClass="select" placeholder="select" onClick={this.handleStatusChange}>
       {values}
-      </FormControl>);
+    </FormControl>);
   }
 
   render() {
@@ -358,16 +347,16 @@ return uniqueResultOne;
             <FormGroup controlId="collaborators">
               <ControlLabel><font size="4" color="blue">COLLABORATORS</font></ControlLabel>
               <div class="form-group">
-              {this.renderCollaborators()}
+                {this.renderCollaborators()}
 
               </div>
             </FormGroup>
 
             <FormGroup controlId="status">
-              <ControlLabel><font size="4" color="blue">STATUS:</font><font size="3" color="red"><i> va trebui sa mai bag un atribut la project - statusul</i></font></ControlLabel>
-              
+              <ControlLabel><font size="4" color="blue">STATUS:</font><font size="3" color="red"></font></ControlLabel>
+
               {this.renderStatus()}
-     
+
             </FormGroup>
 
             <LoaderButton

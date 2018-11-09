@@ -37,7 +37,7 @@ export default class UsersList extends Component {
       this.setState({
         currentUserStatus: userStatus,
         User: UserList,
-        usersPending: UserList,
+      //  usersPending: UserList,
         usersPending: usersRequested
       });
 

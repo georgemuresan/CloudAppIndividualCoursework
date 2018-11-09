@@ -69,7 +69,7 @@ functions:
     handler: get.main
     events:
       - http:
-          path: Project/{id}
+          path: Project/specific/{uid}/id/{id}
           method: get
           cors: true
           authorizer: aws_iam

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { API, Storage } from "aws-amplify";
+import { API, Storage, Auth } from "aws-amplify";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
@@ -20,8 +20,10 @@ export default class Projects extends Component {
       projectDescription: "",
       attributes: [],
       collaborators: [],
+      includesCurrentUser: false,
       attachmentURL: null,
       User: [],
+      currentUserID: ""
     };
   }
 
@@ -36,6 +38,13 @@ export default class Projects extends Component {
         attachmentURL = await Storage.vault.get(attachment);
       }
 
+      await Auth.currentAuthenticatedUser()
+        .then(user => this.state.currentUserID = user.username)
+        .catch(err => alert(err));
+
+
+
+      const partOfTheProject = this.checkIfIncludesHim(this.state.currentUserID);
       this.setState({
         project,
         projectStatus,
@@ -44,21 +53,30 @@ export default class Projects extends Component {
         attributes,
         collaborators,
         attachmentURL,
-        User: us
+        User: us,
+        includesCurrentUser: partOfTheProject
       });
     } catch (e) {
       alert(e);
     }
   }
 
-
+  checkIfIncludesHim() {
+    var found = false;
+    this.state.collaborators.forEach(function (entry) {
+      if (JSON.parse(entry).userID === this.state.currentUserID) {
+        found = true;
+      }
+    });
+    return found;
+  }
 
   users() {
     return API.get("User", "/User");
   }
 
   getProject() {
-    return API.get("Project", `/Project/${this.props.match.params.id}`);
+    return API.get("Project", `/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`);
   }
 
 
@@ -66,28 +84,46 @@ export default class Projects extends Component {
     return str.replace(/^\w+-/, "");
   }
 
-  
+
 
   renderCollaborators() {
     return (
       <ul>
-      {this.state.collaborators.map(function(name, index){
-          return <li key={ index }>{JSON.parse(name).userFirstName} {JSON.parse(name).userLastName}, {JSON.parse(name).userDepartment}</li>;
+        {this.state.collaborators.map(function (name, index) {
+          return <li key={index}>{JSON.parse(name).userFirstName} {JSON.parse(name).userLastName}, {JSON.parse(name).userDepartment}</li>;
         })}
-     </ul>
-       );
+      </ul>
+    );
 
   }
-  
+
   renderSkills() {
 
     return (
       <ul>
-      {this.state.attributes.map(function(name, index){
-          return <li key={ index }>{name}</li>;
+        {this.state.attributes.map(function (name, index) {
+          return <li key={index}>{name}</li>;
         })}
-     </ul>
-       );
+      </ul>
+    );
+  }
+
+  
+
+  handleGoToEdit = async event => {
+
+    event.preventDefault();
+
+    this.setState({ isLoading: true });
+
+    try {
+
+     
+      this.props.history.push(`/Project/edit/${this.props.match.params.uid}/id/${this.props.match.params.id}`);
+    } catch (e) {
+      alert(e);
+      this.setState({ isLoading: false });
+    }
   }
 
 
@@ -95,19 +131,19 @@ export default class Projects extends Component {
     return (
       <div className="Projects">
         {this.state.project &&
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleJoin}>
             <FormGroup controlId="projectNameTitle">
               <ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
             </FormGroup>
             <FormGroup controlId="projectName">
-            <ControlLabel><font size="3" color="black">{this.state.projectName}</font></ControlLabel>
+              <ControlLabel><font size="3" color="black">{this.state.projectName}</font></ControlLabel>
             </FormGroup>
 
             <FormGroup controlId="projectDescriptiontitle">
               <ControlLabel><font size="4" color="blue">PROJECT DESCRIPTION</font></ControlLabel>
             </FormGroup>
             <FormGroup controlId="projectDescription">
-            <ControlLabel><font size="3" color="black">{this.state.projectDescription}</font></ControlLabel>
+              <ControlLabel><font size="3" color="black">{this.state.projectDescription}</font></ControlLabel>
             </FormGroup>
 
             <FormGroup controlId="projectSkillsTitle">
@@ -129,12 +165,12 @@ export default class Projects extends Component {
                   </a>
                 </FormControl.Static>
               </FormGroup>}
-        
+
             <FormGroup controlId="projectStatusTitle">
               <ControlLabel><font size="4" color="blue">PROJECT STATUS</font></ControlLabel>
             </FormGroup>
             <FormGroup controlId="projectStatus">
-            <ControlLabel><font size="3" color="black">{this.state.projectStatus}</font></ControlLabel>
+              <ControlLabel><font size="3" color="black">{this.state.projectStatus}</font></ControlLabel>
             </FormGroup>
 
             <FormGroup controlId="projectCollaboratorsTitle">
@@ -144,17 +180,27 @@ export default class Projects extends Component {
               {this.renderCollaborators()}
             </div>
 
-           
-            
-          
-            <LoaderButton
-              block
-              bsStyle="danger"
-              bsSize="large"
-              isLoading={this.state.isLoading}
-              text="JOIN PROJECT"
-              loadingText="Sending request..."
-            />
+
+            {!this.state.includesCurrentUser &&
+
+              <LoaderButton
+                block
+                bsStyle="primary"
+                bsSize="large"
+                isLoading={this.state.isLoading}
+                text="JOIN PROJECT"
+                loadingText="Sending request..."
+              />
+            }
+             <LoaderButton
+                block
+                bsStyle="primary"
+                bsSize="large"
+                isLoading={this.state.isLoading}
+                onClick={this.handleGoToEdit}
+                text="EDIT PROJECT"
+                loadingText="Processing"
+              />
           </form>}
       </div>
     );

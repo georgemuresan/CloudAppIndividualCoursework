@@ -25,6 +25,7 @@ export async function main(event, context, callback) {
       attributes: data.attributes,
       attachment: data.attachment,
       collaborators: data.collaborators,
+      projectPendingCollaborators: data.projectPendingCollaborators,
       createdAt: Date.now()
     }
   };

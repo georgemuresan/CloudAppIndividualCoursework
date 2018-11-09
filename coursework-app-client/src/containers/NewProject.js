@@ -21,6 +21,7 @@ export default class NewProject extends Component {
 			attributes: [],
 			collaborators: [],
 			projectStatus: "Pending",
+			projectPendingCollaborators: [],
 			User: []
 		};
 	}
@@ -104,7 +105,8 @@ export default class NewProject extends Component {
 				projectName: this.state.projectName,
 				projectDescription: this.state.projectDescription,
 				attributes: this.state.attributes,
-				collaborators: this.state.collaborators
+				collaborators: this.state.collaborators,
+				projectPendingCollaborators: this.state.projectPendingCollaborators
 			});
 			this.props.history.push("/");
 		} catch (e) {
