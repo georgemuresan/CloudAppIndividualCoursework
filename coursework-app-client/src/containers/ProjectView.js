@@ -3,7 +3,7 @@ import { API, Storage, Auth } from "aws-amplify";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
-import "./Projects.css";
+import "./ProjectView.css";
 import { s3Upload } from "../libs/awsLib";
 
 export default class Projects extends Component {
@@ -22,6 +22,7 @@ export default class Projects extends Component {
       collaborators: [],
       includesCurrentUser: false,
       attachmentURL: null,
+      projectPendingCollaborators: [],
       User: [],
       currentUserID: ""
     };
@@ -31,7 +32,8 @@ export default class Projects extends Component {
     try {
       let attachmentURL;
       const project = await this.getProject();
-      const { projectStatus, projectName, projectDescription, attributes, collaborators, attachment } = project;
+      const { projectStatus, projectName, projectDescription, attributes, collaborators, attachment, projectPendingCollaborators
+      } = project;
 
       const us = await this.users();
       if (attachment) {
@@ -53,6 +55,7 @@ export default class Projects extends Component {
         attributes,
         collaborators,
         attachmentURL,
+        projectPendingCollaborators,
         User: us,
         includesCurrentUser: partOfTheProject
       });
@@ -64,13 +67,23 @@ export default class Projects extends Component {
   checkIfIncludesHim() {
     var found = false;
     this.state.collaborators.forEach(function (entry) {
+      
       if (JSON.parse(entry).userID === this.state.currentUserID) {
         found = true;
       }
     });
     return found;
   }
-
+  checkIfPending(number) {
+    var found = false;
+    this.state.projectPendingCollaborators.forEach(function (entry) {
+      
+      if (entry === number) {
+        found = true;
+      }
+    });
+    return found;
+  }
   users() {
     return API.get("User", "/User");
   }
@@ -126,12 +139,50 @@ export default class Projects extends Component {
     }
   }
 
+  saveProject(project) {
+    return API.put("Project", `/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`, {
+      body: project
+    });
+  }
+
+  handleJoin = async event => {
+
+    event.preventDefault();
+
+    
+
+    try {
+
+      var pending = this.state.projectPendingCollaborators;
+      pending.push(this.state.currentUserID);
+
+      this.setState({ isLoading: true,
+        projectPendingCollaborators: pending,
+        includesCurrentUser : true
+        });
+
+        await this.saveProject({
+          projectStatus: this.state.projectStatus,
+          projectName: this.state.projectName,
+          projectDescription: this.state.projectDescription,
+          attributes: this.state.attributes,
+          collaborators: this.state.collaborators,
+          projectPendingCollaborators: pending,
+        });
+        this.setState({ isLoading: false });
+      this.props.history.push(`/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`);
+    } catch (e) {
+      alert(e);
+      this.setState({ isLoading: false });
+    }
+  }
+
 
   render() {
     return (
       <div className="Projects">
         {this.state.project &&
-          <form onSubmit={this.handleJoin}>
+          <form >
             <FormGroup controlId="projectNameTitle">
               <ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
             </FormGroup>
@@ -181,13 +232,14 @@ export default class Projects extends Component {
             </div>
 
 
-            {!this.state.includesCurrentUser &&
+            {!this.state.includesCurrentUser && !this.checkIfPending(this.state.currentUserID) &&
 
               <LoaderButton
                 block
                 bsStyle="primary"
                 bsSize="large"
                 isLoading={this.state.isLoading}
+                onClick={this.handleJoin}
                 text="JOIN PROJECT"
                 loadingText="Sending request..."
               />

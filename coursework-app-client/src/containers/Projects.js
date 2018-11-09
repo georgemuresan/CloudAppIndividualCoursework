@@ -25,7 +25,8 @@ export default class Projects extends Component {
       oldCollaborators: [],
       attachmentURL: null,
       User: [],
-      missingUsers: []
+      missingUsers: [],
+      projectPendingCollaborators: []
     };
   }
 
@@ -33,7 +34,7 @@ export default class Projects extends Component {
     try {
       let attachmentURL;
       const project = await this.getProject();
-      const { projectStatus, projectName, projectDescription, attributes, collaborators, attachment } = project;
+      const { projectStatus, projectName, projectDescription, attributes, collaborators, attachment, projectPendingCollaborators } = project;
 
       const us = await this.users();
       if (attachment) {
@@ -50,6 +51,7 @@ export default class Projects extends Component {
         collaborators,
         oldCollaborators: collaborators,
         attachmentURL,
+        projectPendingCollaborators,
         missingSkills: [...this.state.allSkills].filter(x => !attributes.includes(x)),
         missingUsers: missin,
         User: us
@@ -101,7 +103,7 @@ export default class Projects extends Component {
   }
 
   saveProject(project) {
-    return API.put("Project", `/Project/${this.props.match.params.id}`, {
+    return API.put("Project", `/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`, {
       body: project
     });
   }
@@ -130,7 +132,7 @@ export default class Projects extends Component {
         attributes: this.state.attributes,
         collaborators: this.state.collaborators,
         attachment: attachment || this.state.project.attachment,
-
+        projectPendingCollaborators : this.state.projectPendingCollaborators
       });
       this.props.history.push("/");
     } catch (e) {

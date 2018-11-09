@@ -126,7 +126,7 @@ functions:
     handler: update.main
     events:
       - http:
-          path: Project/{id}
+          path: Project/specific/{uid}/id/{id}
           method: put
           cors: true
           authorizer: aws_iam

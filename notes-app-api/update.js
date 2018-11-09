@@ -9,18 +9,19 @@ export async function main(event, context, callback) {
     // - 'userId': Identity Pool identity id of the authenticated user
     // - 'noteId': path parameter
     Key: {
-      userID: event.requestContext.identity.cognitoIdentityId,
+      userID: event.pathParameters.uid,
       projectID: event.pathParameters.id
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: "SET projectName = :projectName, projectDescription = :projectDescription, attributes = :attributes, attachment = :attachment, collaborators = :collaborators",
+    UpdateExpression: "SET projectName = :projectName, projectDescription = :projectDescription, attributes = :attributes, attachment = :attachment, collaborators = :collaborators, projectPendingCollaborators = :projectPendingCollaborators",
     ExpressionAttributeValues: {
       ":attachment": data.attachment ? data.attachment : null,
       ":projectName": data.projectName ? data.projectName : null,
 	  ":projectDescription": data.projectDescription ? data.projectDescription : null,
 	  ":attributes": data.attributes ? data.attributes : null,
-	  ":collaborators": data.collaborators ? data.collaborators : null
+	  ":collaborators": data.collaborators ? data.collaborators : null,
+    ":projectPendingCollaborators": data.projectPendingCollaborators ? data.projectPendingCollaborators : null
     },
     ReturnValues: "ALL_NEW"
   };

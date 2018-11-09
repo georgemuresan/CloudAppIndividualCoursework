@@ -115,10 +115,10 @@ getUser() {
       i !== 0
         ? <LinkContainer
             key={project.projectID}
-            to={`/User/Approval/${project.projectID}`}
+            to={`/Project/Approval/${project.userID}/id/${project.projectID}`}
           >
-            <ListGroupItem header={project.projectName.trim().split("\n")[0]}>
-              {"Joined: " + new Date(project.createdAt).toLocaleString()}
+            <ListGroupItem header={"Project: " + project.projectName.trim().split("\n")[0]}>
+              {"Users want to join this project. Click to check who and approve/decline."}
             </ListGroupItem>
           </LinkContainer>
         : <LinkContainer
