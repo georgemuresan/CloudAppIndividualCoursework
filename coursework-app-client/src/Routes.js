@@ -15,6 +15,7 @@ import ProjectSearch from "./containers/ProjectSearch";
 import Users from "./containers/Users";
 import UsersApproval from "./containers/UsersApproval";
 import ProjectView from "./containers/ProjectView";
+import ProjectApproval from "./containers/ProjectApproval";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 
@@ -31,6 +32,7 @@ export default ({ childProps }) =>
     <AuthenticatedRoute path="/Project/new" exact component={NewProject} props={childProps} />
     <AuthenticatedRoute path="/User/Approval/:id" exact component={UsersApproval} props={childProps} />
     <AuthenticatedRoute path="/User/:id" exact component={Users} props={childProps} />
+    <AuthenticatedRoute path="/Project/Approval/:uid/id/:id" exact component={ProjectApproval} props={childProps} />
     <AuthenticatedRoute path="/Project/specific/:uid/id/:id" exact component={ProjectView} props={childProps} />
     <AuthenticatedRoute path="/Project/edit/:uid/id/:id" exact component={Projects} props={childProps} />
     

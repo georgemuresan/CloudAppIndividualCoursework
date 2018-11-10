@@ -23,7 +23,6 @@ export default class Projects extends Component {
       includesCurrentUser: false,
       attachmentURL: null,
       projectPendingCollaborators: [],
-      User: [],
       currentUserID: ""
     };
   }
@@ -35,15 +34,13 @@ export default class Projects extends Component {
       const { projectStatus, projectName, projectDescription, attributes, collaborators, attachment, projectPendingCollaborators
       } = project;
 
-      const us = await this.users();
       if (attachment) {
         attachmentURL = await Storage.vault.get(attachment);
       }
 
       await Auth.currentAuthenticatedUser()
-        .then(user => this.state.currentUserID = user.username)
+        .then(user => this.state.currentUserID = this.props.match.params.uid)
         .catch(err => alert(err));
-
 
 
       const partOfTheProject = this.checkIfIncludesHim(this.state.currentUserID);
@@ -56,7 +53,6 @@ export default class Projects extends Component {
         collaborators,
         attachmentURL,
         projectPendingCollaborators,
-        User: us,
         includesCurrentUser: partOfTheProject
       });
     } catch (e) {
@@ -83,9 +79,6 @@ export default class Projects extends Component {
       }
     });
     return found;
-  }
-  users() {
-    return API.get("User", "/User");
   }
 
   getProject() {
