@@ -21,8 +21,9 @@ export default class MyProfile extends Component {
       userSkills: [],
       currentUserID: "",
       oldState: "",
-      allSkills: ["Java", "C++", "Assembly", "bb", "Python", "php", "sql", "swing", "css", "html", "json", "csv"],
-      missingSkills: []
+      allSkills: ["Java", "C++", "Assembly", "R", "Python", "PHP", "SQL", "Swing", "CSS", "HTML", "JSON", "CSV", "Team Leader", "JavaScript", "Pascal", "MatLab", "SolidWorks"],
+      missingSkills: [],
+      allDepartments: ["Engineering", "Computer Science", "Environmental Studies", "Electronics", "Maths and Sciences"]
     };
   }
 
@@ -105,7 +106,7 @@ export default class MyProfile extends Component {
 
   handleRequest = event => {
 
-   
+
     var currentUserState = this.state.userStatus;
     var boxes = document.getElementsByName("boxst");
     if (boxes[0].checked == true) {
@@ -199,16 +200,69 @@ export default class MyProfile extends Component {
     this.render();
   };
 
-  //FOR SIMPLY LISTINg WITH BULLET POINTS
-  //renderSkills() {
-  //  return (
-  //   <ul>
-  //   {this.state.allSkills.map(function(name, index){
-  //       return <li key={ index }>{name}</li>;
-  //     })}
-  //  </ul>
-  //    );
-  // }
+  handleStatusChange = event => {
+    var selects = document.getElementsByName("stat");
+
+    var resultStat = "";
+    for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+      var opt = selects[i];
+      if (opt.selected) {
+        resultStat = opt.value;
+      }
+    }
+    this.setState({
+      userStatus: resultStat
+    });
+  }
+
+  handleDepartmentChange = event => {
+    var selects = document.getElementsByName("dep");
+
+    var resultStat = "";
+    for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+      var opt = selects[i];
+      if (opt.selected) {
+        resultStat = opt.value;
+      }
+    }
+    this.setState({
+      userDepartment: resultStat
+    });
+  }
+
+  renderStatus() {
+
+    var values = [];
+
+    values.push(<option value="Admin" selected name="stat" >Admin</option>);
+    values.push(<option value="Project Manager" name="stat" >Project Manager</option>);
+    values.push(<option value="Developer" name="stat" >Developer</option>);
+
+
+    return (<FormControl componentClass="select" placeholder="select" onChange={this.handleStatusChange}>
+      {values}
+    </FormControl>);
+  }
+  renderDepatments(depart) {
+
+    var values = [];
+
+    var depts = this.state.allDepartments;
+    for (var i = 0; i < depts.length; i++) {
+      if (depts[i] === depart) {
+
+        values.push(<option value={depts[i]} selected name="dep" >{depts[i]}</option>);
+      }
+      else {
+        values.push(<option value={depts[i]} name="dep" >{depts[i]}</option>);
+      }
+    }
+
+
+    return (<FormControl componentClass="select" placeholder="select" onChange={this.handleDepartmentChange}>
+      {values}
+    </FormControl>);
+  }
 
   render() {
     return (
@@ -234,11 +288,7 @@ export default class MyProfile extends Component {
             </FormGroup>
             <FormGroup controlId="userDepartment">
               <ControlLabel><font size="4" color="blue">Department</font></ControlLabel>
-              <FormControl
-                onChange={this.handleChange}
-                value={this.state.userDepartment}
-                componentClass="textarea"
-              />
+              {this.renderDepatments(this.state.userDepartment)}
             </FormGroup>
             <FormGroup controlId="userDescription">
               <ControlLabel><font size="4" color="blue">Description</font></ControlLabel>
@@ -261,7 +311,14 @@ export default class MyProfile extends Component {
             </FormGroup>
             <FormGroup controlId="userStatus">
               <ControlLabel><font size="4" color="blue">Status: </font></ControlLabel>
+
               <ControlLabel><font size="3" color="black">{this.state.userStatus} </font></ControlLabel>
+              {(this.state.userStatus === "Admin" || this.state.oldState === "Admin") &&
+                <form>
+                  {this.renderStatus()}
+                </form>}
+
+
             </FormGroup>
             {this.state.user && this.state.oldState === "Developer" &&
               <form>

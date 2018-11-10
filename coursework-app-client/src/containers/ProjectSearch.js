@@ -10,7 +10,7 @@ export default class ProjectSearch extends Component {
     super(props);
 
     this.state = {
-      allSkills: ["Java", "C++", "Assembly", "bb", "Python", "php", "sql", "swing", "css", "html", "json", "csv"],
+      allSkills: ["Java", "C++", "Assembly", "R", "Python", "PHP", "SQL", "Swing", "CSS", "HTML", "JSON", "CSV", "Team Leader", "JavaScript", "Pascal", "MatLab", "SolidWorks"],
       isLoading: true,
       Project: [],
       searchName: localStorage['newSearch'],
@@ -80,8 +80,8 @@ export default class ProjectSearch extends Component {
       var projectResults = [];
       var settingsFound = false;
       var keepLooking = true;
-
-      if (this.state.searchName !== "") {
+    
+      if (this.state.searchName !== "" && typeof this.state.searchName != 'undefined') {
         settingsFound = true;
         for (var i = 0; i < this.state.Project.length; i++) {
           if (this.state.Project[i].projectName === this.state.searchName) {
@@ -92,6 +92,7 @@ export default class ProjectSearch extends Component {
           keepLooking = false;
         }
       }
+      
       if (keepLooking) if (settingsFound) {
         if (this.state.searchStatus !== "") {
           var copy = [];
@@ -106,19 +107,22 @@ export default class ProjectSearch extends Component {
           }
         }
       } else if (!settingsFound) {
+  
         if (this.state.searchStatus !== "") {
           settingsFound = true;
           for (var i = 0; i < this.state.Project.length; i++) {
             if (this.state.Project[i].projectStatus === this.state.searchStatus) {
-              projectResults.push(this.state.User[i]);
+              projectResults.push(this.state.Project[i]);
             }
           }
+          
           if (projectResults.length === 0) {
             keepLooking = false;
           }
+          
         }
       }
-
+     
       if (keepLooking) if (settingsFound) {
         if (this.state.searchDescription !== "") {
           var copy = [];
@@ -150,7 +154,7 @@ export default class ProjectSearch extends Component {
         if (this.state.searchSkills.length !== 0) {
           var copy = [];
           for (var i = 0; i < projectResults.length; i++) {
-            var differenceinSklls = this.getMissingSkills(projectResults[i].attributes, this.state.searchSkills);
+            var differenceinSklls = this.getMissingSkills(this.state.searchSkills, projectResults[i].attributes);
             if (differenceinSklls.length === 0) {
               copy.push(projectResults[i]);
             }
@@ -164,7 +168,7 @@ export default class ProjectSearch extends Component {
         if (this.state.searchSkills.length !== 0) {
           settingsFound = true;
           for (var i = 0; i < this.state.Project.length; i++) {
-            var differenceinSklls = this.getMissingSkills(this.state.Project[i].attributes, this.state.searchSkills);
+            var differenceinSklls = this.getMissingSkills(this.state.searchSkills, this.state.Project[i].attributes);
             if (differenceinSklls.length === 0) {
               projectResults.push(this.state.Project[i]);
             }
@@ -174,7 +178,7 @@ export default class ProjectSearch extends Component {
           }
         }
       }
-
+      
       this.setState({ searchedProjects: projectResults });
       this.render();
 
@@ -253,6 +257,53 @@ export default class ProjectSearch extends Component {
 
   }
 
+  handleStatusChange = event => {
+    var selects = document.getElementsByName("stat");
+
+    var resultStat = "";
+    for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+      var opt = selects[i];
+      if (opt.selected) {
+        resultStat = opt.value;
+      }
+    }
+    this.setState({
+      searchStatus: resultStat
+    });
+  }
+
+  renderStatus() {
+    var values = [];
+
+    if (this.state.searchStatus === "") {
+      values.push(<option value="" selected name="stat" ></option>);
+      values.push(<option value="Pending" name="stat" >Pending</option>);
+      values.push(<option value="Active" name="stat" >Active</option>);
+      values.push(<option value="Completed" name="stat" >Completed</option>);
+    } else if (this.state.searchStatus === "Pending") {
+      values.push(<option value="" name="stat" ></option>);
+      values.push(<option value="Pending" name="stat" selected >Pending</option>);
+      values.push(<option value="Active" name="stat" >Active</option>);
+      values.push(<option value="Completed" name="stat">Completed</option>);
+    } else if (this.state.searchStatus === "Active") {
+
+      values.push(<option value="" name="stat" ></option>);
+      values.push(<option value="Pending" name="stat" >Pending</option>);
+      values.push(<option value="Active" name="stat" selected >Active</option>);
+      values.push(<option value="Completed" name="stat" >Completed</option>);
+    } else if (this.state.searchStatus === "Completed") {
+      values.push(<option value="" name="stat" ></option>);
+      values.push(<option value="Pending" name="stat" >Pending</option>);
+      values.push(<option value="Active" name="stat" >Active</option>);
+      values.push(<option value="Completed" selected name="stat" >Completed</option>);
+    } 
+
+
+    return (<FormControl componentClass="select" placeholder="select" onChange={this.handleStatusChange}>
+      {values}
+    </FormControl>);
+  }
+
   render() {
     return (
       <div className="ProjectsList">
@@ -261,7 +312,7 @@ export default class ProjectSearch extends Component {
             <ListGroup>
               <ControlLabel><font size="6" color="blue">FILTERS</font></ControlLabel>
               <FormGroup controlId="searchName">
-                <ControlLabel><font size="4" color="blue">Name search</font></ControlLabel>
+                <ControlLabel><font size="4" color="blue">Name</font></ControlLabel>
                 <FormControl
                   onChange={this.handleChange}
                   value={this.state.searchName}
@@ -269,12 +320,8 @@ export default class ProjectSearch extends Component {
                 />
               </FormGroup>
               <FormGroup controlId="searchStatus">
-                <ControlLabel><font size="4" color="blue">Status - Pending/Active/Completed</font></ControlLabel>
-                <FormControl
-                  onChange={this.handleChange}
-                  value={this.state.searchStatus}
-                  componentClass="textarea"
-                />
+                <ControlLabel><font size="4" color="blue">Status</font></ControlLabel>
+                {this.renderStatus()}
               </FormGroup>
               <FormGroup controlId="searchDescription">
                 <ControlLabel><font size="4" color="blue">Description</font></ControlLabel>

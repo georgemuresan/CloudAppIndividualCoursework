@@ -69,6 +69,7 @@ class App extends Component {
                   <NavItem>
                     <nav class="navbar navbar-light bg-light">
                       <form class="form-inline">
+                      
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  onChange={e => this.updateInput("newSearch", e.target.value)} />
                       </form>
                     </nav>

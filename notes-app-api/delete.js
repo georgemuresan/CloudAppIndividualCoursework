@@ -8,7 +8,7 @@ export async function main(event, context, callback) {
     // - 'userId': Identity Pool identity id of the authenticated user
     // - 'noteId': path parameter
     Key: {
-      userID: event.requestContext.identity.cognitoIdentityId,
+      userID: event.pathParameters.uid,
       projectID: event.pathParameters.id
     }
   };

@@ -80,14 +80,9 @@ users() {
               {"Joined: " + new Date(user.joinedAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
-        : <LinkContainer
-        key=""
-        to=""
-      >
-        <ListGroupItem>
-         
-        </ListGroupItem>
-      </LinkContainer>
+        : <ListGroupItem>
+        All the pending User requests to become a Project Manager.
+       </ListGroupItem>
   );
   }
 

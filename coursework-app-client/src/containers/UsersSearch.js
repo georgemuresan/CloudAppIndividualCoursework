@@ -10,14 +10,15 @@ export default class UsersSearch extends Component {
     super(props);
 
     this.state = {
-      allSkills: ["Java", "C++", "Assembly", "bb", "Python", "php", "sql", "swing", "css", "html", "json", "csv"],
+      allSkills: ["Java", "C++", "Assembly", "R", "Python", "PHP", "SQL", "Swing", "CSS", "HTML", "JSON", "CSV", "Team Leader", "JavaScript", "Pascal", "MatLab", "SolidWorks"],
       isLoading: true,
       User: [],
       searchName: localStorage['newSearch'],
       searchStatus: "",
       searchDepartment: "",
       searchSkills: [],
-      searchedUsers: []
+      searchedUsers: [],
+      allDepartments: ["", "Engineering", "Computer Science", "Environmental Studies", "Electronics", "Maths and Sciences"]
       //asta e updatat prima data pt nume
     };
   }
@@ -40,8 +41,10 @@ export default class UsersSearch extends Component {
       }
       localStorage.removeItem('newSearch');
 
-      this.setState({ User,
-        searchedUsers: tempUser });
+      this.setState({
+        User,
+        searchedUsers: tempUser
+      });
     } catch (e) {
       alert(e);
     }
@@ -81,7 +84,8 @@ export default class UsersSearch extends Component {
       var settingsFound = false;
       var keepLooking = true;
 
-      if (this.state.searchName !== "") {
+
+      if (this.state.searchName !== "" && typeof this.state.searchName != 'undefined') {
         settingsFound = true;
         for (var i = 0; i < this.state.User.length; i++) {
           if (this.state.User[i].userFirstName === this.state.searchName || this.state.User[i].userLastName === this.state.searchName) {
@@ -92,6 +96,7 @@ export default class UsersSearch extends Component {
           keepLooking = false;
         }
       }
+      
       if (keepLooking) if (settingsFound) {
         if (this.state.searchStatus !== "") {
           var copy = [];
@@ -106,6 +111,7 @@ export default class UsersSearch extends Component {
           }
         }
       } else if (!settingsFound) {
+        
         if (this.state.searchStatus !== "") {
           settingsFound = true;
           for (var i = 0; i < this.state.User.length; i++) {
@@ -150,7 +156,7 @@ export default class UsersSearch extends Component {
         if (this.state.searchSkills.length !== 0) {
           var copy = [];
           for (var i = 0; i < usersResults.length; i++) {
-            var differenceinSklls = this.getMissingSkills(usersResults[i].userSkills, this.state.searchSkills);
+            var differenceinSklls = this.getMissingSkills(this.state.searchSkills, usersResults[i].userSkills);
             if (differenceinSklls.length === 0) {
               copy.push(usersResults[i]);
             }
@@ -164,7 +170,7 @@ export default class UsersSearch extends Component {
         if (this.state.searchSkills.length !== 0) {
           settingsFound = true;
           for (var i = 0; i < this.state.User.length; i++) {
-            var differenceinSklls = this.getMissingSkills(this.state.User[i].userSkills, this.state.searchSkills);
+            var differenceinSklls = this.getMissingSkills(this.state.searchSkills, this.state.User[i].userSkills);
             if (differenceinSklls.length === 0) {
               usersResults.push(this.state.User[i]);
             }
@@ -253,6 +259,94 @@ export default class UsersSearch extends Component {
 
   }
 
+  handleDepartmentChange = event => {
+    var selects = document.getElementsByName("dep");
+
+    var resultStat = "";
+    for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+      var opt = selects[i];
+      if (opt.selected) {
+        resultStat = opt.value;
+      }
+    }
+    this.setState({
+      searchDepartment: resultStat
+    });
+  }
+  renderDepartments() {
+
+    var values = [];
+    var depts = this.state.allDepartments;
+    for (var i = 0; i < depts.length; i++) {
+      if (depts[i] === this.state.searchDepartment) {
+        values.push(<option value={depts[i]} selected name="dep" >{depts[i]}</option>);
+      }
+      else {
+        values.push(<option value={depts[i]} name="dep" >{depts[i]}</option>);
+      }
+    }
+
+    return (<FormControl componentClass="select" placeholder="select" onChange={this.handleDepartmentChange}>
+      {values}
+    </FormControl>);
+  }
+
+  handleStatusChange = event => {
+    var selects = document.getElementsByName("stat");
+
+    var resultStat = "";
+    for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+      var opt = selects[i];
+      if (opt.selected) {
+        resultStat = opt.value;
+      }
+    }
+    this.setState({
+      searchStatus: resultStat
+    });
+  }
+
+  renderStatus() {
+    var values = [];
+
+    if (this.state.searchStatus === "") {
+      values.push(<option value="" selected name="stat" ></option>);
+      values.push(<option value="Admin" name="stat" >Admin</option>);
+      values.push(<option value="Project Manager" name="stat" >Project Manager</option>);
+      values.push(<option value="Developer, pending to become a Project Manager" name="stat" >Developer, pending to become a Project Manager</option>);
+      values.push(<option value="Developer" name="stat" >Developer</option>);
+    } else if (this.state.searchStatus === "Admin") {
+      values.push(<option value="" name="stat" ></option>);
+      values.push(<option value="Admin" name="stat" selected >Admin</option>);
+      values.push(<option value="Project Manager" name="stat" >Project Manager</option>);
+      values.push(<option value="Developer, pending to become a Project Manager" name="stat" >Developer, pending to become a Project Manager</option>);
+      values.push(<option value="Developer" name="stat" >Developer</option>);
+    } else if (this.state.searchStatus === "Project Manager") {
+      values.push(<option value="" name="stat" ></option>);
+      values.push(<option value="Admin" name="stat" >Admin</option>);
+      values.push(<option value="Project Manager" name="stat" selected >Project Manager</option>);
+      values.push(<option value="Developer, pending to become a Project Manager" name="stat" >Developer, pending to become a Project Manager</option>);
+      values.push(<option value="Developer" name="stat" >Developer</option>);
+    } else if (this.state.searchStatus === "Developer, pending to become a Project Manager") {
+      values.push(<option value="" name="stat" ></option>);
+      values.push(<option value="Admin" name="stat" >Admin</option>);
+      values.push(<option value="Project Manager" name="stat" >Project Manager</option>);
+      values.push(<option value="Developer, pending to become a Project Manager" selected name="stat" >Developer, pending to become a Project Manager</option>);
+      values.push(<option value="Developer" name="stat" >Developer</option>);
+    } else if (this.state.searchStatus === "Developer") {
+      values.push(<option value="" name="stat" ></option>);
+      values.push(<option value="Admin" name="stat" >Admin</option>);
+      values.push(<option value="Project Manager" name="stat" >Project Manager</option>);
+      values.push(<option value="Developer, pending to become a Project Manager" name="stat" >Developer, pending to become a Project Manager</option>);
+      values.push(<option value="Developer" selected name="stat" >Developer</option>);
+    }
+
+
+    return (<FormControl componentClass="select" placeholder="select" onChange={this.handleStatusChange}>
+      {values}
+    </FormControl>);
+  }
+
   render() {
     return (
       <div className="UsersList">
@@ -269,20 +363,12 @@ export default class UsersSearch extends Component {
                 />
               </FormGroup>
               <FormGroup controlId="searchStatus">
-                <ControlLabel><font size="4" color="blue">Status - Developer or Project Manager</font></ControlLabel>
-                <FormControl
-                  onChange={this.handleChange}
-                  value={this.state.searchStatus}
-                  componentClass="textarea"
-                />
+                <ControlLabel><font size="4" color="blue">Status</font></ControlLabel>
+                {this.renderStatus()}
               </FormGroup>
               <FormGroup controlId="searchDepartment">
                 <ControlLabel><font size="4" color="blue">Department</font></ControlLabel>
-                <FormControl
-                  onChange={this.handleChange}
-                  value={this.state.searchDepartment}
-                  componentClass="textarea"
-                />
+                {this.renderDepartments()}
               </FormGroup>
               <FormGroup controlId="skills">
                 <ControlLabel><font size="4" color="blue">Skills</font></ControlLabel>

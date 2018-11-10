@@ -13,14 +13,14 @@ export default class NewProject extends Component {
 		this.file = null;
 
 		this.state = {
-			allSkills: ["Java", "C++", "Assembly", "bb", "Python", "php", "sql", "swing", "css", "html", "json", "csv"],
+			allSkills: ["Java", "C++", "Assembly", "R", "Python", "PHP", "SQL", "Swing", "CSS", "HTML", "JSON", "CSV", "Team Leader", "JavaScript", "Pascal", "MatLab", "SolidWorks"],
 			isLoading: null,
 			project: null,
 			projectName: "",
 			projectDescription: "",
 			attributes: [],
 			collaborators: [],
-			projectStatus: "Pending",
+			projectStatus: "",
 			projectPendingCollaborators: [],
 			User: []
 		};
@@ -121,6 +121,36 @@ export default class NewProject extends Component {
 		});
 	}
 
+	handleStatusChange = event => {
+		var selects = document.getElementsByName("stat");
+	
+		var resultStat = "";
+		for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+		  var opt = selects[i];
+		  if (opt.selected) {
+			resultStat = opt.value;
+		  }
+		}
+		this.setState({
+		  projectStatus: resultStat
+		});
+	  }
+
+	renderStatus() {
+		
+		var values = [];
+	
+		
+			  values.push(<option value="Pending" selected name="stat" >Pending</option>);
+			  values.push(<option value="Active" name="stat" >Active</option>);
+			  values.push(<option value="Completed" name="stat" >Completed</option>);
+	
+	
+		return (<FormControl componentClass="select" placeholder="select" onChange={this.handleStatusChange}>
+		  {values}
+		</FormControl>);
+	  }
+
 	renderProjectAttributes() {
 
 		var skillset = this.state.allSkills;
@@ -139,7 +169,9 @@ export default class NewProject extends Component {
 		var values = [];
 		for (var i = 0; i < list.length; i++) {
 			const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = list[i];
+			if (userStatus !== "Admin"){
 			values.push(<option value={JSON.stringify(list[i])}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
+			}
 		}
 		return (<div class="form-group">
 			<select multiple class="form-control" id="collabID" name="collaborators" onClick={this.handleCollaborators}>
@@ -188,7 +220,9 @@ export default class NewProject extends Component {
 						</div>
 					</FormGroup>
 					<FormGroup controlId="status">
-						<ControlLabel><font size="4" color="blue">STATUS:</font><font size="3" color="red"><i> pending...</i></font></ControlLabel>
+						<ControlLabel><font size="4" color="blue">STATUS:</font></ControlLabel>
+						{this.renderStatus()}
+
 					</FormGroup>
 					<LoaderButton
 						block

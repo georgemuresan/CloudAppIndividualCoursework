@@ -5,6 +5,7 @@ import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 import "./ProjectView.css";
 import { s3Upload } from "../libs/awsLib";
+import { AlexaForBusiness } from "aws-sdk/clients/all";
 
 export default class Projects extends Component {
   constructor(props) {
@@ -23,7 +24,9 @@ export default class Projects extends Component {
       includesCurrentUser: false,
       attachmentURL: null,
       projectPendingCollaborators: [],
-      currentUserID: ""
+      currentUserID: "",
+      isCompleted: false,
+      isPending: false
     };
   }
 
@@ -43,7 +46,15 @@ export default class Projects extends Component {
         .catch(err => alert(err));
 
 
-      const partOfTheProject = this.checkIfIncludesHim(this.state.currentUserID);
+        var checkCompleted;
+        if (projectStatus === "Completed"){
+          checkCompleted = true;
+        }
+        var checkPending;
+        if (projectStatus === "Pending"){
+          checkPending = true;
+        }
+      const partOfTheProject = this.checkIfIncludesHim(this.state.currentUserID, collaborators);
       this.setState({
         project,
         projectStatus,
@@ -53,18 +64,21 @@ export default class Projects extends Component {
         collaborators,
         attachmentURL,
         projectPendingCollaborators,
-        includesCurrentUser: partOfTheProject
+        includesCurrentUser: partOfTheProject,
+        isCompleted: checkCompleted,
+        isPending: checkPending
       });
     } catch (e) {
       alert(e);
     }
   }
 
-  checkIfIncludesHim() {
+  checkIfIncludesHim(id, collaborators) {
+    
     var found = false;
-    this.state.collaborators.forEach(function (entry) {
+    collaborators.forEach(function (entry) {
       
-      if (JSON.parse(entry).userID === this.state.currentUserID) {
+      if (JSON.parse(entry).userID === id) {
         found = true;
       }
     });
@@ -225,7 +239,7 @@ export default class Projects extends Component {
             </div>
 
 
-            {!this.state.includesCurrentUser && !this.checkIfPending(this.state.currentUserID) &&
+            {!this.state.includesCurrentUser && !this.checkIfPending(this.state.currentUserID) && !this.state.isCompleted && !this.state.isPending &&
 
               <LoaderButton
                 block
@@ -237,6 +251,7 @@ export default class Projects extends Component {
                 loadingText="Sending request..."
               />
             }
+             {!this.state.isCompleted && 
              <LoaderButton
                 block
                 bsStyle="primary"
@@ -246,6 +261,7 @@ export default class Projects extends Component {
                 text="EDIT PROJECT"
                 loadingText="Processing"
               />
+             }
           </form>}
       </div>
     );

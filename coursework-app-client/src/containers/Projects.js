@@ -12,7 +12,7 @@ export default class Projects extends Component {
 
     this.file = null;
     this.state = {
-      allSkills: ["Java", "C++", "Assembly", "bb", "Python", "php", "sql", "swing", "css", "html", "json", "csv"],
+      allSkills: ["Java", "C++", "Assembly", "R", "Python", "PHP", "SQL", "Swing", "CSS", "HTML", "JSON", "CSV", "Team Leader", "JavaScript", "Pascal", "MatLab", "SolidWorks"],
       missingSkills: [],
       isLoading: null,
       isDeleting: null,
@@ -143,7 +143,7 @@ export default class Projects extends Component {
 
 
   deleteProject() {
-    return API.del("Project", `/Project/${this.props.match.params.id}`);
+    return API.del("Project", `/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`);
   }
 
   handleDelete = async event => {
@@ -210,7 +210,9 @@ export default class Projects extends Component {
       if (usrSet.present) {
         values.push(<option selected={true} value={JSON.stringify(usrSet.user)}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
       } else {
+        if (userStatus !== "Admin"){
         values.push(<option value={JSON.stringify(usrSet.user)}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
+        }
       }
     }
     return (<div class="form-group">
@@ -276,24 +278,24 @@ export default class Projects extends Component {
     var values = [];
 
     if (currentProjStatus === "Active") {
-      values.push(<option value="Pending" name="stat">Pending</option>);
-      values.push(<option value="Active" selected name="stat">Active</option>);
-      values.push(<option value="Completed" name="stat">Completed</option>);
+      values.push(<option value="Pending" name="stat" >Pending</option>);
+      values.push(<option value="Active" selected name="stat" >Active</option>);
+      values.push(<option value="Completed" name="stat" >Completed</option>);
     } else
       if (currentProjStatus === "Completed") {
         values.push(<option value="Pending" name="stat" >Pending</option>);
-        values.push(<option value="Active" name="stat">Active</option>);
-        values.push(<option value="Completed" selected name="stat">Completed</option>);
+        values.push(<option value="Active" name="stat" >Active</option>);
+        values.push(<option value="Completed" selected name="stat" >Completed</option>);
       } else
         if (currentProjStatus === "Pending") {
 
-          values.push(<option value="Pending" selected name="stat">Pending</option>);
+          values.push(<option value="Pending" selected name="stat" >Pending</option>);
           values.push(<option value="Active" name="stat" >Active</option>);
-          values.push(<option value="Completed" name="stat">Completed</option>);
+          values.push(<option value="Completed" name="stat" >Completed</option>);
         }
 
 
-    return (<FormControl componentClass="select" placeholder="select" onClick={this.handleStatusChange}>
+    return (<FormControl componentClass="select" placeholder="select" onChange={this.handleStatusChange}>
       {values}
     </FormControl>);
   }
@@ -302,7 +304,7 @@ export default class Projects extends Component {
     return (
       <div className="Projects">
         {this.state.project &&
-          <form onSubmit={this.handleSubmit}>
+          <form >
             <FormGroup controlId="projectName">
               <ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
               <FormControl
@@ -367,6 +369,7 @@ export default class Projects extends Component {
               bsSize="large"
               disabled={!this.validateForm()}
               type="submit"
+              onClick={this.handleSubmit}
               isLoading={this.state.isLoading}
               text="Save"
               loadingText="Saving…"

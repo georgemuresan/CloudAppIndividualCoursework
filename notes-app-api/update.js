@@ -14,14 +14,15 @@ export async function main(event, context, callback) {
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: "SET projectName = :projectName, projectDescription = :projectDescription, attributes = :attributes, attachment = :attachment, collaborators = :collaborators, projectPendingCollaborators = :projectPendingCollaborators",
+    UpdateExpression: "SET projectName = :projectName, projectDescription = :projectDescription, attributes = :attributes, attachment = :attachment, collaborators = :collaborators, projectPendingCollaborators = :projectPendingCollaborators, projectStatus = :projectStatus",
     ExpressionAttributeValues: {
       ":attachment": data.attachment ? data.attachment : null,
       ":projectName": data.projectName ? data.projectName : null,
 	  ":projectDescription": data.projectDescription ? data.projectDescription : null,
 	  ":attributes": data.attributes ? data.attributes : null,
 	  ":collaborators": data.collaborators ? data.collaborators : null,
-    ":projectPendingCollaborators": data.projectPendingCollaborators ? data.projectPendingCollaborators : null
+    ":projectPendingCollaborators": data.projectPendingCollaborators ? data.projectPendingCollaborators : null,
+    ":projectStatus": data.projectStatus ? data.projectStatus : null
     },
     ReturnValues: "ALL_NEW"
   };

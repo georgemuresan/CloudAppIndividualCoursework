@@ -112,30 +112,37 @@ export default class ProjectApproval extends Component {
   handleSubmitDecsion = async event => {
     event.preventDefault();
     //ideea e simpla: un for loop printre toate checkboxurile.Daca e checked,, atunci ia checkbox.value (currentID), apoi cauta userul cu id-ul ala, il stocheaza intr-o variabila, il stringify si il baga ca si colaborator la proiectul curent. La sfarsit da stergere la pendingcollaborators  si da save la project.
-/*
-    var currentUserState = this.state.userStatus;
-    var boxes = document.getElementsByName("boxst");
-    if (boxes[0].checked == true) {
-      currentUserState = "Developer, pending to become a Project Manager";
-    } else {
-      currentUserState = "Developer";
+    var boxes = document.getElementsByName("box");
+
+    var newCollaborators = this.state.collaborators;
+    for (var i=0; i<boxes.length; i++){
+      if (boxes[0].checked == true){
+        var theId = boxes[0].value;
+        var user = await this.getUser(theId);
+        newCollaborators.push(JSON.stringify(user));
+      }
     }
-    this.setState({
-      userStatus: currentUserState
-    });
-    this.setState({ isDeleting: true });
-
+    this.setState({ collaborators: newCollaborators,
+      projectPendingCollaborators: [],
+      isLoading: true });
+    
     try {
-      await this.deletUser();
-      await Auth.signOut();
 
-      this.userHasAuthenticated(false);
-      this.props.history.push("/login");
+      await this.saveProject({
+        projectStatus: this.state.projectStatus,
+        projectName: this.state.projectName,
+        projectDescription: this.state.projectDescription,
+        attributes: this.state.attributes,
+        collaborators: newCollaborators,
+        attachment: this.state.attachmentURL,
+        projectPendingCollaborators : []
+      });
+      this.props.history.push("/");
     } catch (e) {
       alert(e);
-      this.setState({ isDeleting: false });
+      this.setState({ isLoading: false });
     }
-    */
+   
   }
 
 
@@ -154,7 +161,6 @@ export default class ProjectApproval extends Component {
 
   renderUSerPanels(users) {
     var order = [];
-    alert(this.state.projectPendingCollaborators.length);
     for (var i = 0; i < this.state.projectPendingCollaborators.length; i++) {
       var entry = this.state.projectPendingCollaborators[i];
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { API, Storage } from "aws-amplify";
+import { API, Storage, Auth } from "aws-amplify";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Users.css";
 import LoaderButton from "../components/LoaderButton";
@@ -19,15 +19,32 @@ export default class Users extends Component {
       userDepartment: "",
       userDescription: "",
       userSkills: [],
-      emailValue: false
+      userID: "",
+      emailValue: false,
+      isAdmin: false,
+      currentUserID: "",
+      loggedID: ""
     };
   }
 
   async componentDidMount() {
     try {
-      const user = await this.getUser();
-      
-      const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
+
+      await Auth.currentAuthenticatedUser()
+      .then(user => this.state.loggedID = user.username)
+      .catch(err => alert(err));
+
+      var viewedUSer = this.props.match.params.id;
+      const user = await this.getUserChosen(viewedUSer);
+    
+      const loggedUser = await this.getUser();
+     var checkAdmin = false;
+     if (loggedUser.userStatus === "Admin"){
+        checkAdmin = true;
+      }
+
+      const { userID, userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
+     
       this.setState({
         user,
         userEmail,
@@ -36,7 +53,10 @@ export default class Users extends Component {
         userLastName,
         userDepartment,
         userDescription,
-        userSkills
+        userSkills,
+        userID,
+        isAdmin: checkAdmin,
+        currentUserID: viewedUSer
       });
     } catch (e) {
       alert(e);
@@ -44,8 +64,11 @@ export default class Users extends Component {
   }
 
   getUser() {
-   // alert(this.props.match.params.id);
-    return API.get("User", `/User/chosen/${this.props.match.params.id}`);
+    return API.get("User", `/User/${this.state.loggedID}`);
+  }
+
+  getUserChosen(id) {
+    return API.get("User", `/User/chosen/${id}`);
   }
 
 
@@ -68,6 +91,88 @@ export default class Users extends Component {
     this.setState({
       newUser: true
     });
+  }
+
+  handleStatusChange = event => {
+    var selects = document.getElementsByName("stat");
+
+    var resultStat = "";
+    for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+      var opt = selects[i];
+      if (opt.selected) {
+        resultStat = opt.value;
+      }
+    }
+    this.setState({
+      userStatus: resultStat
+    });
+  }
+
+  renderStatus() {
+    var currentStatus = this.state.userStatus;
+
+
+    var values = [];
+
+    if (currentStatus === "Admin") {
+      values.push(<option value="Admin" selected name="stat" >Admin</option>);
+      values.push(<option value="Project Manager"  name="stat" >Project Manager</option>);
+      values.push(<option value="Developer, pending to become a Project Manager" name="stat" >Developer, pending to become a Project Manager</option>);
+      values.push(<option value="Developer" name="stat" >Developer</option>);
+    } else
+      if (currentStatus === "Project Manager") {
+        values.push(<option value="Admin"  name="stat" >Admin</option>);
+        values.push(<option value="Project Manager" selected name="stat" >Project Manager</option>);
+        values.push(<option value="Developer, pending to become a Project Manager" name="stat" >Developer, pending to become a Project Manager</option>);
+        values.push(<option value="Developer" name="stat" >Developer</option>);
+      } else
+        if (currentStatus === "Developer, pending to become a Project Manager") {
+          values.push(<option value="Admin"  name="stat" >Admin</option>);
+          values.push(<option value="Project Manager"  name="stat" >Project Manager</option>);
+          values.push(<option value="Developer, pending to become a Project Manager" selected name="stat" >Developer, pending to become a Project Manager</option>);
+          values.push(<option value="Developer" name="stat" >Developer</option>);
+        } else 
+        if (currentStatus === "Developer") {
+          values.push(<option value="Admin"  name="stat" >Admin</option>);
+          values.push(<option value="Project Manager"  name="stat" >Project Manager</option>);
+          values.push(<option value="Developer, pending to become a Project Manager" name="stat" >Developer, pending to become a Project Manager</option>);
+          values.push(<option value="Developer" selected name="stat" >Developer</option>);
+        } 
+
+
+    return (<FormControl componentClass="select" placeholder="select" onChange={this.handleStatusChange}>
+      {values}
+    </FormControl>);
+  }
+
+  saveUser(user) {
+    return API.put("User", `/User/chosen/${this.state.userID}`, {
+      body: user
+    });
+  }
+  
+  handleSaveUser = async event => {
+
+    event.preventDefault();
+
+    this.setState({ isLoading: true });
+
+    try {
+
+      await this.saveUser({
+        userFirstName: this.state.userFirstName,
+        userLastName: this.state.userLastName,
+        userDepartment: this.state.userDepartment,
+        userDescription: this.state.userDescription,
+        userStatus: this.state.userStatus,
+        userSkills: this.state.userSkills,
+      });
+      this.setState({ isLoading: false });
+      this.props.history.push(`/User/${this.state.userID}`);
+    } catch (e) {
+      alert(e);
+      this.setState({ isLoading: false });
+    }
   }
 
 
@@ -118,9 +223,26 @@ export default class Users extends Component {
             <FormGroup controlId="userEmail">
               <ControlLabel><font size="3" color="black">{this.state.userEmail}</font></ControlLabel>
             </FormGroup>
+            {this.state.isAdmin &&
+            <FormGroup controlId="changeUserStatusTitle">
+          
+              <ControlLabel><font size="4" color="blue">Change the User Status:</font></ControlLabel>
+              {this.renderStatus()}
+           
+              <LoaderButton
+              block
+              bsStyle="primary"
+              bsSize="large"
+              isLoading={this.state.isLoading}
+              onClick={this.handleSaveUser}
+              text="Save changed status"
+              loadingText="Saving..."
+            />
+             </FormGroup>
+            }
             <LoaderButton
               block
-              bsStyle="danger"
+              bsStyle="primary"
               bsSize="large"
               isLoading={this.state.isLoading}
               onClick={this.handleEmail}
