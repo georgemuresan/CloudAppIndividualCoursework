@@ -269,8 +269,12 @@ export default class MyProfile extends Component {
       <div className="MyProfile">
         {this.state.user &&
           <form onSubmit={this.handleSubmit}>
+             <FormGroup controlId="titlePage">
+             <h1><font size="6" ><b>MY PROFILE</b></font></h1>
+              
+            </FormGroup>
             <FormGroup controlId="userFirstName">
-              <ControlLabel><font size="4" color="blue">First Name</font></ControlLabel>
+            <h1><font size="4" ><b>First Name:</b></font></h1>
               <FormControl
                 onChange={this.handleChange}
                 value={this.state.userFirstName}
@@ -279,7 +283,7 @@ export default class MyProfile extends Component {
             </FormGroup>
 
             <FormGroup controlId="userLastName">
-              <ControlLabel><font size="4" color="blue">Last Name</font></ControlLabel>
+            <h1><font size="4" ><b>Last Name:</b></font></h1>
               <FormControl
                 onChange={this.handleChange}
                 value={this.state.userLastName}
@@ -287,11 +291,11 @@ export default class MyProfile extends Component {
               />
             </FormGroup>
             <FormGroup controlId="userDepartment">
-              <ControlLabel><font size="4" color="blue">Department</font></ControlLabel>
+            <h1><font size="4" ><b>Department:</b></font></h1>
               {this.renderDepatments(this.state.userDepartment)}
             </FormGroup>
             <FormGroup controlId="userDescription">
-              <ControlLabel><font size="4" color="blue">Description</font></ControlLabel>
+            <h1><font size="4" ><b>Description:</b></font></h1>
               <FormControl
                 onChange={this.handleChange}
                 value={this.state.userDescription}
@@ -299,20 +303,20 @@ export default class MyProfile extends Component {
               />
             </FormGroup>
             <FormGroup controlId="userSkills">
-              <ControlLabel><font size="4" color="blue">Skills: </font></ControlLabel>
+            <h1><font size="4" ><b>Skills: </b></font></h1>
               <div className="skills">
                 {this.renderSkills()}
 
               </div>
             </FormGroup>
             <FormGroup controlId="userEmail">
-              <ControlLabel><font size="4" color="blue">Email: </font></ControlLabel>
-              <ControlLabel><font size="3" color="black">{this.state.userEmail} </font></ControlLabel>
+            <h1><font size="4" ><b>Email: </b><font size="3" >{this.state.userEmail} </font></font></h1>
+            
             </FormGroup>
             <FormGroup controlId="userStatus">
-              <ControlLabel><font size="4" color="blue">Status: </font></ControlLabel>
+            <h1><font size="4" ><b>Status: </b><font size="3" color="black">{this.state.userStatus} </font></font></h1>
 
-              <ControlLabel><font size="3" color="black">{this.state.userStatus} </font></ControlLabel>
+              
               {(this.state.userStatus === "Admin" || this.state.oldState === "Admin") &&
                 <form>
                   {this.renderStatus()}

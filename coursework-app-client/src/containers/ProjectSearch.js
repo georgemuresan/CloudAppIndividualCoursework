@@ -211,16 +211,15 @@ export default class ProjectSearch extends Component {
             to={`/Project/${project.projectID}`}
           >
             <ListGroupItem header={project.projectName.trim().split("\n")[0]}>
-              {"Creatd at: " + new Date(project.createdAt).toLocaleString()}
+              {"Status: " + project.projectStatus + "; " + "Created at: " + new Date(project.createdAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
-          : <LinkContainer
-            key=""
-            to=""
-          >
-            <ListGroupItem>
-            </ListGroupItem>
-          </LinkContainer>
+          : <ListGroupItem>
+          <font size="3">
+        <b>Search results</b>
+        </font>
+      
+       </ListGroupItem>
     );
   }
 
@@ -236,7 +235,7 @@ export default class ProjectSearch extends Component {
   renderProjects() {
     return (
       <div className="projects">
-        <PageHeader>Projects List</PageHeader>
+        <h1><font size="6">PROJECT LIST</font></h1>
         <ListGroup>
           {!this.state.isLoading && this.renderProjectsList(this.state.searchedProjects)}
         </ListGroup>
@@ -310,9 +309,9 @@ export default class ProjectSearch extends Component {
         {this.props.isAuthenticated ?
           <form onSubmit={this.handleSubmit}>
             <ListGroup>
-              <ControlLabel><font size="6" color="blue">FILTERS</font></ControlLabel>
+              <h1><font size="6">PROJECT FILTERS</font></h1>
               <FormGroup controlId="searchName">
-                <ControlLabel><font size="4" color="blue">Name</font></ControlLabel>
+              <h3><font size="4" ><b>Name:</b></font></h3>
                 <FormControl
                   onChange={this.handleChange}
                   value={this.state.searchName}
@@ -320,11 +319,11 @@ export default class ProjectSearch extends Component {
                 />
               </FormGroup>
               <FormGroup controlId="searchStatus">
-                <ControlLabel><font size="4" color="blue">Status</font></ControlLabel>
+              <h3><font size="4" ><b>Status:</b></font></h3>
                 {this.renderStatus()}
               </FormGroup>
               <FormGroup controlId="searchDescription">
-                <ControlLabel><font size="4" color="blue">Description</font></ControlLabel>
+              <h3><font size="4" ><b>Description:</b></font></h3>
                 <FormControl
                   onChange={this.handleChange}
                   value={this.state.searchDescription}
@@ -332,7 +331,7 @@ export default class ProjectSearch extends Component {
                 />
               </FormGroup>
               <FormGroup controlId="skills">
-                <ControlLabel><font size="4" color="blue">Desired Skills</font></ControlLabel>
+              <h3><font size="4" ><b>Desired Skills:</b></font></h3>
                 {this.renderSkills()}
               </FormGroup>
               <LoaderButton

@@ -128,49 +128,36 @@ export default class UsersApproval extends Component {
         {this.state.user &&
           <form >
             <FormGroup controlId="titlePage">
-              <ControlLabel><font size="4" color="blue">USER REQUEST</font></ControlLabel>
+            <h1><font size="6" ><b>USER REQUEST</b></font></h1>
             </FormGroup>
-             <FormGroup controlId="userStatusTitle">
-              <ControlLabel><font size="4" color="blue">User status: </font></ControlLabel>
+            <FormGroup controlId="userStatusTitle">
+             <h1><font size="4" ><b>User status: </b><font size="3" >{this.state.userStatus}</font></font></h1>
             </FormGroup>
-            <FormGroup controlId="userStatus">
-              <ControlLabel><font size="3" color="black">{this.state.userStatus}</font></ControlLabel>
-            </FormGroup>
+
             <FormGroup controlId="userFirstNameTitle">
-              <ControlLabel><font size="4" color="blue">First Name: </font></ControlLabel>
+            <h1><font size="4" ><b>First Name: </b><font size="3" color="black">{this.state.userFirstName}</font></font></h1>
             </FormGroup>
-            <FormGroup controlId="userFirstName">
-              <ControlLabel><font size="3" color="black">{this.state.userFirstName}</font></ControlLabel>
-            </FormGroup>
+           
             <FormGroup controlId="userLastNameTitle">
-              <ControlLabel><font size="4" color="blue">Last Name: </font></ControlLabel>
+            <h1><font size="4" ><b>Last Name: </b><font size="3" color="black">{this.state.userLastName}</font></font></h1>
             </FormGroup>
-            <FormGroup controlId="userLastName">
-              <ControlLabel><font size="3" color="black">{this.state.userLastName}</font></ControlLabel>
-            </FormGroup>
+
             <FormGroup controlId="userDepartmentTitle">
-              <ControlLabel><font size="4" color="blue">Department: </font></ControlLabel>
+            <h1><font size="4" ><b>Department: </b><font size="3" color="black">{this.state.userDepartment}</font></font></h1>
             </FormGroup>
-            <FormGroup controlId="userDepartment">
-              <ControlLabel><font size="3" color="black">{this.state.userDepartment}</font></ControlLabel>
-            </FormGroup>
+          
             <FormGroup controlId="userDescriptionTitle">
-              <ControlLabel><font size="4" color="blue">Description: </font></ControlLabel>
+            <h1><font size="4" ><b>Description: </b><font size="3" color="black">{this.state.userDescription}</font></font></h1>
             </FormGroup>
-            <FormGroup controlId="userDescription">
-              <ControlLabel><font size="3" color="black">{this.state.userDescription}</font></ControlLabel>
-            </FormGroup>
+           
             <FormGroup controlId="userSkillstitle">
-              <ControlLabel><font size="4" color="blue">Skills: </font></ControlLabel>
+            <h1><font size="4" ><b>Skills: </b></font></h1>
             </FormGroup>
             <FormGroup controlId="userSkills">
               {this.renderSkills()}
             </FormGroup>
             <FormGroup controlId="userEmailTitle">
-              <ControlLabel><font size="4" color="blue">Email: </font></ControlLabel>
-            </FormGroup>
-            <FormGroup controlId="userEmail">
-              <ControlLabel><font size="3" color="black">{this.state.userEmail}</font></ControlLabel>
+            <h1><font size="4" ><b>Email: </b><font size="3" color="black">{this.state.userEmail}</font></font></h1>
             </FormGroup>
             <LoaderButton
               block

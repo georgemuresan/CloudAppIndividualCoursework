@@ -76,12 +76,14 @@ users() {
             key={user.userID}
             to={`/User/${user.userID}`}
           >
-            <ListGroupItem header={user.userFirstName.trim().split("\n")[0]}>
-              {"Joined: " + new Date(user.joinedAt).toLocaleString()}
+            <ListGroupItem header={user.userFirstName.trim().split("\n")[0] + " " + user.userLastName.trim().split("\n")[0]}>
+              {"Status: " + user.userStatus + "; " + "Joined: " + new Date(user.joinedAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
         : <ListGroupItem>
-        All the pending User requests to become a Project Manager.
+          <font size="3">
+        <b>All the Users in the system.</b>
+        </font>
        </ListGroupItem>
   );
   }
@@ -94,18 +96,15 @@ users() {
             key={user.userID}
             to={`/User/Approval/${user.userID}`}
           >
-            <ListGroupItem header={user.userFirstName.trim().split("\n")[0]}>
-              {"Joined: " + new Date(user.joinedAt).toLocaleString()}
+            <ListGroupItem header={user.userFirstName.trim().split("\n")[0] + " " + user.userLastName.trim().split("\n")[0]}>
+              {"Status: " + user.userStatus + "; " + "Joined: " + new Date(user.joinedAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
-        : <LinkContainer
-        key=""
-        to=""
-      >
-        <ListGroupItem>
-         
-        </ListGroupItem>
-      </LinkContainer>
+        : <ListGroupItem>
+          <font size="3">
+        <b>All the pending User requests to become a Project Manager.</b>
+        </font>
+       </ListGroupItem>
   );
   }
 
@@ -121,7 +120,7 @@ users() {
   renderUsers() {
     return (
       <div className="users">
-        <PageHeader>Users List</PageHeader>
+          <h1><font size="6" ><b>USER LIST</b></font></h1>
         <ListGroup>
           {!this.state.isLoading && this.renderUsersList(this.state.User)}
         </ListGroup>
@@ -131,7 +130,7 @@ users() {
   renderUserRequests() {
     return (
       <div className="userRequests">
-        <PageHeader>Users Requests</PageHeader>
+          <h1><font size="6" ><b>USER REQUESTS</b></font></h1>
         <ListGroup>
           {!this.state.isLoading && this.renderUsersRequestsList(this.state.usersPending)}
         </ListGroup>

@@ -12,7 +12,8 @@
   color: #999;
 }
 
-.ProjectSearch .users h4 {
+
+.UsersSearch .users h1 {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   overflow: hidden;
@@ -20,6 +21,17 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+
+.UsersSearch .users h3 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  overflow: hidden;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .ProjectSearch .users p {
   color: #666;
 }

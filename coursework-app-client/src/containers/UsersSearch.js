@@ -212,17 +212,16 @@ export default class UsersSearch extends Component {
             key={user.userID}
             to={`/User/${user.userID}`}
           >
-            <ListGroupItem header={user.userFirstName.trim().split("\n")[0]}>
-              {"Joined: " + new Date(user.joinedAt).toLocaleString()}
+            <ListGroupItem header={user.userFirstName.trim().split("\n")[0] + " " + user.userLastName.trim().split("\n")[0]}>
+              {"Status: " + user.userStatus + "; " + "Joined: " + new Date(user.joinedAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
-          : <LinkContainer
-            key=""
-            to=""
-          >
-            <ListGroupItem>
-            </ListGroupItem>
-          </LinkContainer>
+          : <ListGroupItem>
+            <font size="3">
+            <b>Search results</b>
+          </font>
+        
+         </ListGroupItem>
     );
   }
 
@@ -238,7 +237,7 @@ export default class UsersSearch extends Component {
   renderUsers() {
     return (
       <div className="users">
-        <PageHeader>Users List</PageHeader>
+         <h1><font size="6" ><b>USER LIST</b></font></h1>
         <ListGroup>
           {!this.state.isLoading && this.renderUsersList(this.state.searchedUsers)}
         </ListGroup>
@@ -353,9 +352,9 @@ export default class UsersSearch extends Component {
         {this.props.isAuthenticated ?
           <form onSubmit={this.handleSubmit}>
             <ListGroup>
-              <ControlLabel><font size="6" color="blue">FILTERS</font></ControlLabel>
+              <h1><font size="6" ><b>USER FILTERS</b></font></h1>
               <FormGroup controlId="searchName">
-                <ControlLabel><font size="4" color="blue">Name search - please input either First or Last name.</font></ControlLabel>
+                <h3><font size="4" ><b>Name search - please input either First or Last name:</b></font></h3>
                 <FormControl
                   onChange={this.handleChange}
                   value={this.state.searchName}
@@ -363,15 +362,15 @@ export default class UsersSearch extends Component {
                 />
               </FormGroup>
               <FormGroup controlId="searchStatus">
-                <ControlLabel><font size="4" color="blue">Status</font></ControlLabel>
+                <h3><font size="4" ><b>Status:</b></font></h3>
                 {this.renderStatus()}
               </FormGroup>
               <FormGroup controlId="searchDepartment">
-                <ControlLabel><font size="4" color="blue">Department</font></ControlLabel>
+                <h3><font size="4" ><b>Department:</b></font></h3>
                 {this.renderDepartments()}
               </FormGroup>
               <FormGroup controlId="skills">
-                <ControlLabel><font size="4" color="blue">Skills</font></ControlLabel>
+                <h3><font size="4"><b>Skills:</b></font></h3>
                 {this.renderSkills()}
               </FormGroup>
               <LoaderButton

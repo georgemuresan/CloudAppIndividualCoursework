@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
+import { PageHeader, ListGroup, ListGroupItem, Panel} from "react-bootstrap";
 import "./AboutUs.css";
 import { API } from "aws-amplify";
 import { LinkContainer } from "react-router-bootstrap";
@@ -81,8 +81,12 @@ projects() {
     return (
       <div className="AboutUs">
         <div className="lander">
-          <h1>Scratch</h1>
+          <Panel >
+    <Panel.Body>
+    <h1>Scratch</h1>
           <p>A simple note taking app</p>
+    </Panel.Body>
+  </Panel>
         </div>
       </div>
     );

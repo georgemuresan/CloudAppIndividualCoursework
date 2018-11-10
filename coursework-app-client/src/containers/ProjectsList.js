@@ -108,18 +108,19 @@ getMissingProjects(allProjects, myProjects) {
             key={project.projectID}
             to={`/Project/specific/${project.userID}/id/${project.projectID}`}
           >
-            <ListGroupItem header={project.projectStatus + " Project: " + project.projectName.trim().split("\n")[0]}>
-              {"Created: " + new Date(project.createdAt).toLocaleString()}
+            <ListGroupItem header={project.projectName.trim().split("\n")[0]}>
+              {"Status: " + project.projectStatus + "; " + "Created: " + new Date(project.createdAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
         : <LinkContainer
             key="new"
             to="/Project/new"
           >
+          
             <ListGroupItem>
-              <h4>
-                <b>{"\uFF0B"}</b> Create a new project
-              </h4>
+            <font size="3">
+                <b>{"\uFF0B"} Create a new project</b>
+                </font>
             </ListGroupItem>
           </LinkContainer>
   );
@@ -133,13 +134,17 @@ getMissingProjects(allProjects, myProjects) {
             key={project.projectID}
             to={`/Project/specific/${project.userID}/id/${project.projectID}`}
           >
-            <ListGroupItem header={project.projectStatus + " Project: " + project.projectName.trim().split("\n")[0]}>
-              {"Created: " + new Date(project.createdAt).toLocaleString()}
+            <ListGroupItem header={project.projectName.trim().split("\n")[0]}>
+              {"Status: " + project.projectStatus + "; " + "Created: " + new Date(project.createdAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
-        : <ListGroupItem>
-        Alll the Projects that I am involved in.
-       </ListGroupItem>
+        : 
+        <ListGroupItem>
+        <font size="3">
+        <b>All the Projects that I am/were involved in.</b>
+      </font>
+     </ListGroupItem>
+
   );
   }
 
@@ -155,7 +160,7 @@ getMissingProjects(allProjects, myProjects) {
   renderProjects() {
     return (
       <div className="projects">
-        <PageHeader>Other Projects</PageHeader>
+           <h1><font size="6" ><b>OTHER PROJECTS</b></font></h1>
         <ListGroup>
           {!this.state.isLoading && this.renderProjectsList(this.state.OtherProjects)}
         </ListGroup>
@@ -166,7 +171,7 @@ getMissingProjects(allProjects, myProjects) {
   renderMyProjects() {
     return (
       <div className="projects">
-        <PageHeader>My Projects</PageHeader>
+           <h1><font size="6" ><b>MY PROJECTS</b></font></h1>
         <ListGroup>
           {!this.state.isLoading && this.renderMyProjectsList(this.state.MyProject)}
         </ListGroup>
@@ -182,20 +187,22 @@ getMissingProjects(allProjects, myProjects) {
             key={project.projectID}
             to={`/Project/Approval/${project.userID}/id/${project.projectID}`}
           >
-            <ListGroupItem header={project.projectStatus + " Project: " + project.projectName.trim().split("\n")[0]}>
+            <ListGroupItem header={project.projectName.trim().split("\n")[0]}>
               {"Users want to join this project. Click to check who and approve/decline."}
             </ListGroupItem>
           </LinkContainer>
-        : <ListGroupItem>
-         All the pending User requests to become a collaborator to a Project.
-        </ListGroupItem>
+        :  <ListGroupItem>
+        <font size="3">
+        <b>All the pending User requests to become a collaborator to a Project.</b>
+      </font>
+     </ListGroupItem>
   );
   }
 
   renderProjectRequests() {
     return (
       <div className="projectRequests">
-        <PageHeader>Collaborators requests</PageHeader>
+         <h1><font size="6" ><b>COLLABORATOR REQUESTS</b></font></h1>
         <ListGroup>
           {!this.state.isLoading && this.renderProjectRequestsList(this.state.allProjectsWithRequests)}
         </ListGroup>

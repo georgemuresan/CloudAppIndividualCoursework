@@ -191,6 +191,7 @@ export default class Projects extends Component {
         {this.state.project &&
           <form >
             <FormGroup controlId="projectNameTitle">
+            <h1><font size="6" ><b>PROJECT VIEW</b></font></h1>
               <ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
             </FormGroup>
             <FormGroup controlId="projectName">

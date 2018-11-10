@@ -4,7 +4,7 @@ import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from "react-bootstrap"
 import "./App.css";
 import Routes from "./Routes";
 import { LinkContainer } from "react-router-bootstrap";
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 
 class App extends Component {
 
@@ -15,6 +15,10 @@ class App extends Component {
       isAuthenticated: false,
       isAuthenticating: true,
       newSearch: "",
+      currentUserID: "",
+      userStatus: "",
+      userFirstName: "",
+      userLastName: ""
     };
   }
 
@@ -22,6 +26,22 @@ class App extends Component {
     try {
       await Auth.currentSession();
       this.userHasAuthenticated(true);
+
+      await Auth.currentAuthenticatedUser()
+        .then(user => this.state.currentUserID = user.username)
+        .catch(err => alert(err));
+
+
+      const user = await this.getUser();
+
+      const { userStatus, userFirstName, userLastName } = user;
+      this.setState({
+        userStatus,
+        userFirstName,
+        userLastName
+      });
+
+
     }
     catch (e) {
       if (e !== 'No current user') {
@@ -30,6 +50,10 @@ class App extends Component {
     }
 
     this.setState({ isAuthenticating: false });
+  }
+  getUser() {
+    //alert(this.state.currentUserID);
+    return API.get("User", `/User/${this.state.currentUserID}`);
   }
 
   userHasAuthenticated = authenticated => {
@@ -50,7 +74,7 @@ class App extends Component {
     // update localStorage
     localStorage.setItem(key, value);
   }
-  
+
 
   render() {
     const childProps = {
@@ -61,7 +85,7 @@ class App extends Component {
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        <Navbar fluid collapseOnSelect >
+        <Navbar inverse collapseOnSelect >
           <Navbar.Collapse>
             {this.state.isAuthenticated
               ? <Fragment>
@@ -69,12 +93,12 @@ class App extends Component {
                   <NavItem>
                     <nav class="navbar navbar-light bg-light">
                       <form class="form-inline">
-                      
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  onChange={e => this.updateInput("newSearch", e.target.value)} />
+
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange={e => this.updateInput("newSearch", e.target.value)} />
                       </form>
                     </nav>
                   </NavItem>
-                  <NavItem>     
+                  <NavItem>
                     <DropdownButton title="Search in..">
                       <MenuItem >
                         <LinkContainer to="/userssearch">
@@ -88,11 +112,24 @@ class App extends Component {
                       </MenuItem>
                     </DropdownButton>
                   </NavItem>
-                  <NavItem href="/">About Us</NavItem>
-                  <NavItem href="/userslist">Users</NavItem>
-                  <NavItem href="/projectslist">Projects</NavItem>
+                  <NavItem href="/"><font size="5" color="white">About Us</font></NavItem>
+                  <NavItem href="/userslist"><font size="5" color="white">Users</font></NavItem>
+                  <NavItem href="/projectslist"><font size="5" color="white">Projects</font></NavItem>
                 </Nav>
                 <Nav pullRight>
+                  <NavItem>
+                    <b>
+                    <font size="4">
+                    {this.state.userFirstName + " " + this.state.userLastName}
+                    </font>
+                    </b>
+                    
+                    <br />
+                    <font size="2"><i>
+                    {this.state.userStatus}
+                    </i>
+                    </font>
+                  </NavItem>
                   <NavItem>
                     <DropdownButton title="Profile">
                       <MenuItem >
@@ -103,6 +140,7 @@ class App extends Component {
                       <MenuItem href="#podcasts" onClick={this.handleLogout}>Logout</MenuItem>
                     </DropdownButton>
                   </NavItem>
+                  <NavItem></NavItem>
                 </Nav>
               </Fragment>
               : <Fragment>

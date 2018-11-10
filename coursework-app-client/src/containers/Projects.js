@@ -306,7 +306,8 @@ export default class Projects extends Component {
         {this.state.project &&
           <form >
             <FormGroup controlId="projectName">
-              <ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
+            <h1><font size="6" ><b>PROJECT EDIT</b></font></h1>
+            <h1><font size="4" ><b>Project Name:</b></font></h1>
               <FormControl
                 onChange={this.handleChange}
                 value={this.state.projectName}
@@ -315,7 +316,7 @@ export default class Projects extends Component {
             </FormGroup>
 
             <FormGroup controlId="projectDescription">
-              <ControlLabel><font size="4" color="blue">PROJECT DESCRIPTION</font></ControlLabel>
+            <h1><font size="4" ><b>Project Description:</b></font></h1>
               <FormControl
                 onChange={this.handleChange}
                 value={this.state.projectDescription}
@@ -323,7 +324,7 @@ export default class Projects extends Component {
               />
             </FormGroup>
 
-            <ControlLabel><font size="4" color="blue">DESIRED SKILLS</font></ControlLabel>
+           <h1><font size="4" ><b>Desired Skills:</b></font></h1>
             <div className="skills">
               {this.renderSkills()}
 
@@ -344,12 +345,12 @@ export default class Projects extends Component {
 
             <FormGroup controlId="file">
               {!this.state.project.attachment &&
-                <ControlLabel><font size="4" color="blue">PROJECT ATTACHMENT</font></ControlLabel>}
+                 <h1><font size="4" ><b>Project Attachment:</b></font></h1>}
               <FormControl onChange={this.handleFileChange} type="file" />
             </FormGroup>
 
             <FormGroup controlId="collaborators">
-              <ControlLabel><font size="4" color="blue">COLLABORATORS</font></ControlLabel>
+               <h1><font size="4" ><b>Collaborators:</b></font></h1>
               <div class="form-group">
                 {this.renderCollaborators()}
 
@@ -357,7 +358,7 @@ export default class Projects extends Component {
             </FormGroup>
 
             <FormGroup controlId="status">
-              <ControlLabel><font size="4" color="blue">STATUS:</font><font size="3" color="red"></font></ControlLabel>
+              <ControlLabel><font size="4" color="blue">Status:</font><font size="3" color="red"></font></ControlLabel>
 
               {this.renderStatus()}
 
