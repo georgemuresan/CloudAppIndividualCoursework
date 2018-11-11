@@ -26,7 +26,9 @@ export default class Projects extends Component {
       projectPendingCollaborators: [],
       currentUserID: "",
       isCompleted: false,
-      isPending: false
+      isPending: false,
+      logedUserStatus: "",
+      user: null
     };
   }
 
@@ -44,6 +46,13 @@ export default class Projects extends Component {
       await Auth.currentAuthenticatedUser()
         .then(user => this.state.currentUserID = this.props.match.params.uid)
         .catch(err => alert(err));
+
+        const user = await this.getUser();
+        const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
+      this.setState({
+        logedUserStatus: userStatus,
+        user
+      });
 
 
         var checkCompleted;
@@ -72,6 +81,12 @@ export default class Projects extends Component {
       alert(e);
     }
   }
+
+  getUser() {
+    //alert(this.state.currentUserID);
+    return API.get("User", `/User/${this.state.currentUserID}`);
+  }
+
 
   checkIfIncludesHim(id, collaborators) {
     
@@ -160,11 +175,29 @@ export default class Projects extends Component {
 
     try {
 
+      this.setState({ isLoading: true});
+
+      if (this.state.logedUserStatus === "Project Manager"){
+
+        var newCollabs = this.state.collaborators;
+        newCollabs.push(JSON.stringify(this.state.user));
+
+        this.setState({ collaborators: newCollabs
+          });
+
+        await this.saveProject({
+          projectStatus: this.state.projectStatus,
+          projectName: this.state.projectName,
+          projectDescription: this.state.projectDescription,
+          attributes: this.state.attributes,
+          collaborators: newCollabs,
+          projectPendingCollaborators: this.state.projectPendingCollaborators
+        });
+      } else {
       var pending = this.state.projectPendingCollaborators;
       pending.push(this.state.currentUserID);
 
-      this.setState({ isLoading: true,
-        projectPendingCollaborators: pending,
+      this.setState({ projectPendingCollaborators: pending,
         includesCurrentUser : true
         });
 
@@ -176,6 +209,7 @@ export default class Projects extends Component {
           collaborators: this.state.collaborators,
           projectPendingCollaborators: pending,
         });
+      }
         this.setState({ isLoading: false });
       this.props.history.push(`/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`);
     } catch (e) {
