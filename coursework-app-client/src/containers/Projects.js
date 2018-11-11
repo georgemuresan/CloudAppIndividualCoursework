@@ -358,7 +358,7 @@ export default class Projects extends Component {
             </FormGroup>
 
             <FormGroup controlId="status">
-              <ControlLabel><font size="4" color="blue">Status:</font><font size="3" color="red"></font></ControlLabel>
+              <h1><font size="4">Status:</font></h1>
 
               {this.renderStatus()}
 

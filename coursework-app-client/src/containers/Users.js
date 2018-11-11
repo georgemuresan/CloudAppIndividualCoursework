@@ -87,12 +87,6 @@ export default class Users extends Component {
       );
    }
 
-   handleEmail = async event => {
-    this.setState({
-      newUser: true
-    });
-  }
-
   handleStatusChange = event => {
     var selects = document.getElementsByName("stat");
 
@@ -230,15 +224,6 @@ export default class Users extends Component {
             />
              </FormGroup>
             }
-            <LoaderButton
-              block
-              bsStyle="primary"
-              bsSize="large"
-              isLoading={this.state.isLoading}
-              onClick={this.handleEmail}
-              text="EMAIL"
-              loadingText="Processing..."
-            />
           </form>}
       </div>
     );

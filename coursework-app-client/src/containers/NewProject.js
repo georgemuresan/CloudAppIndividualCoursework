@@ -31,13 +31,14 @@ export default class NewProject extends Component {
 		try {
 
 			const us = await this.users();
-
+			
 			this.setState({ User: us });
 		} catch (e) {
 			alert(e);
 		}
 	}
 
+	
 	users() {
 		return API.get("User", "/User");
 	}
@@ -64,6 +65,7 @@ export default class NewProject extends Component {
 			attributes: attr
 		});
 	};
+
 
 	handleCollaborators = event => {
 		var collabs = document.getElementsByName("collaborators");
@@ -108,6 +110,7 @@ export default class NewProject extends Component {
 				collaborators: this.state.collaborators,
 				projectPendingCollaborators: this.state.projectPendingCollaborators
 			});
+
 			this.props.history.push("/");
 		} catch (e) {
 			alert(e);
@@ -123,33 +126,33 @@ export default class NewProject extends Component {
 
 	handleStatusChange = event => {
 		var selects = document.getElementsByName("stat");
-	
+
 		var resultStat = "";
 		for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
-		  var opt = selects[i];
-		  if (opt.selected) {
-			resultStat = opt.value;
-		  }
+			var opt = selects[i];
+			if (opt.selected) {
+				resultStat = opt.value;
+			}
 		}
 		this.setState({
-		  projectStatus: resultStat
+			projectStatus: resultStat
 		});
-	  }
+	}
 
 	renderStatus() {
-		
+
 		var values = [];
-	
-		
-			  values.push(<option value="Pending" selected name="stat" >Pending</option>);
-			  values.push(<option value="Active" name="stat" >Active</option>);
-			  values.push(<option value="Completed" name="stat" >Completed</option>);
-	
-	
+
+
+		values.push(<option value="Pending" selected name="stat" >Pending</option>);
+		values.push(<option value="Active" name="stat" >Active</option>);
+		values.push(<option value="Completed" name="stat" >Completed</option>);
+
+
 		return (<FormControl componentClass="select" placeholder="select" onChange={this.handleStatusChange}>
-		  {values}
+			{values}
 		</FormControl>);
-	  }
+	}
 
 	renderProjectAttributes() {
 
@@ -169,8 +172,8 @@ export default class NewProject extends Component {
 		var values = [];
 		for (var i = 0; i < list.length; i++) {
 			const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = list[i];
-			if (userStatus !== "Admin"){
-			values.push(<option value={JSON.stringify(list[i])}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
+			if (userStatus !== "Admin") {
+				values.push(<option value={JSON.stringify(list[i])}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
 			}
 		}
 		return (<div class="form-group">
@@ -186,8 +189,9 @@ export default class NewProject extends Component {
 			<div className="NewProject">
 				<form onSubmit={this.handleSubmit}>
 					<div class="pname">
+						<h1><font size="6" ><b>NEW PROJECT</b></font></h1>
 						<FormGroup controlId="projectName">
-							<ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
+							<h1><font size="4" ><b>Name:</b></font></h1>
 							<FormControl
 								onChange={this.handleChange}
 								value={this.state.projectName}
@@ -197,7 +201,7 @@ export default class NewProject extends Component {
 					</div>
 					<div class="pdesc">
 						<FormGroup controlId="projectDescription">
-							<ControlLabel><font size="4" color="blue">PROJECT DESCRIPTION</font></ControlLabel>
+							<h1><font size="4" ><b>Description:</b></font></h1>
 							<FormControl
 								onChange={this.handleChange}
 								value={this.state.projectDescription}
@@ -206,21 +210,21 @@ export default class NewProject extends Component {
 						</FormGroup>
 					</div>
 					<div class="pabilities">
-						<ControlLabel><font size="4" color="blue">PROJECT ATTRIBUTES</font></ControlLabel>
+						<h1><font size="4" ><b>Desired Skills:</b></font></h1>
 					</div>
 					{this.renderProjectAttributes()}
 					<FormGroup controlId="file">
-						<ControlLabel><font size="4" color="blue">PROJECT ATTACHMENT</font></ControlLabel>
+						<h1><font size="4" ><b>Attachment:</b></font></h1>
 						<FormControl onChange={this.handleFileChange} type="file" />
 					</FormGroup>
 					<FormGroup controlId="collaborators">
-						<ControlLabel><font size="4" color="blue">COLLABORATORS</font></ControlLabel>
+						<h1><font size="4" ><b>Collaborators:</b></font></h1>
 						<div class="form-group">
 							{this.renderProjectCollaborators()}
 						</div>
 					</FormGroup>
 					<FormGroup controlId="status">
-						<ControlLabel><font size="4" color="blue">STATUS:</font></ControlLabel>
+						<h1><font size="4">Status:</font></h1>
 						{this.renderStatus()}
 
 					</FormGroup>

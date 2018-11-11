@@ -80,7 +80,7 @@ export default class Signup extends Component {
         userFirstName: this.state.userFirstName,
         userLastName: this.state.userLastName,
         userDepartment: this.state.userDepartment,
-        userSkills: ["bb"]
+        userSkills: []
       });
 
       this.props.userHasAuthenticated(true);
