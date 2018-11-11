@@ -307,7 +307,7 @@ export default class Projects extends Component {
           <form >
             <FormGroup controlId="projectName">
             <h1><font size="6" ><b>PROJECT EDIT</b></font></h1>
-            <h1><font size="4" ><b>Project Name:</b></font></h1>
+            <h1><font size="4" ><b>Name:</b></font></h1>
               <FormControl
                 onChange={this.handleChange}
                 value={this.state.projectName}
@@ -316,7 +316,7 @@ export default class Projects extends Component {
             </FormGroup>
 
             <FormGroup controlId="projectDescription">
-            <h1><font size="4" ><b>Project Description:</b></font></h1>
+            <h1><font size="4" ><b>Description:</b></font></h1>
               <FormControl
                 onChange={this.handleChange}
                 value={this.state.projectDescription}
@@ -345,7 +345,7 @@ export default class Projects extends Component {
 
             <FormGroup controlId="file">
               {!this.state.project.attachment &&
-                 <h1><font size="4" ><b>Project Attachment:</b></font></h1>}
+                 <h1><font size="4" ><b>Attachment:</b></font></h1>}
               <FormControl onChange={this.handleFileChange} type="file" />
             </FormGroup>
 

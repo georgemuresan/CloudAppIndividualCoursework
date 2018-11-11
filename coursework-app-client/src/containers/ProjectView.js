@@ -192,28 +192,25 @@ export default class Projects extends Component {
           <form >
             <FormGroup controlId="projectNameTitle">
             <h1><font size="6" ><b>PROJECT VIEW</b></font></h1>
-              <ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
-            </FormGroup>
-            <FormGroup controlId="projectName">
-              <ControlLabel><font size="3" color="black">{this.state.projectName}</font></ControlLabel>
+            <h1><font size="4" ><b>Name: </b><font size="3" color="black">{this.state.projectName}</font></font></h1>
             </FormGroup>
 
             <FormGroup controlId="projectDescriptiontitle">
-              <ControlLabel><font size="4" color="blue">PROJECT DESCRIPTION</font></ControlLabel>
+            <h1><font size="4" ><b>Description:</b></font></h1>
             </FormGroup>
             <FormGroup controlId="projectDescription">
-              <ControlLabel><font size="3" color="black">{this.state.projectDescription}</font></ControlLabel>
+            <h1><font size="3" >{this.state.projectDescription}</font></h1>
             </FormGroup>
 
             <FormGroup controlId="projectSkillsTitle">
-              <ControlLabel><font size="4" color="blue">DESIRED SKILLS</font></ControlLabel>
+            <h1><font size="4" ><b>Desired Skills:</b></font></h1>
             </FormGroup>
             <div className="skills">
               {this.renderSkills()}
             </div>
             {this.state.project.attachment &&
               <FormGroup>
-                <ControlLabel><font size="4" color="blue">ATTACHMENT</font></ControlLabel>
+                 <h1><font size="4" ><b>Attachment:</b></font></h1>
                 <FormControl.Static>
                   <a
                     target="_blank"
@@ -226,14 +223,12 @@ export default class Projects extends Component {
               </FormGroup>}
 
             <FormGroup controlId="projectStatusTitle">
-              <ControlLabel><font size="4" color="blue">PROJECT STATUS</font></ControlLabel>
-            </FormGroup>
-            <FormGroup controlId="projectStatus">
-              <ControlLabel><font size="3" color="black">{this.state.projectStatus}</font></ControlLabel>
+            <h1><font size="4" ><b>Status:</b> <font size="3" color="black">{this.state.projectStatus}</font></font></h1>
             </FormGroup>
 
+
             <FormGroup controlId="projectCollaboratorsTitle">
-              <ControlLabel><font size="4" color="blue">COLLABORATORS</font></ControlLabel>
+            <h1><font size="4" ><b>Collaborators:</b></font></h1>
             </FormGroup>
             <div className="collabs">
               {this.renderCollaborators()}

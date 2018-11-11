@@ -178,34 +178,37 @@ export default class ProjectApproval extends Component {
         <Panel id="collapsible-panel-example-2" defaultExpanded>
           <Panel.Heading>
             <Panel.Title toggle>
-              {"Name: " + userFirstName + " " + userLastName}
+            <font size="4">
+            <b>Name:</b> {userFirstName + " " + userLastName}
+              
+              </font>
             </Panel.Title>
           </Panel.Heading>
           <Panel.Collapse>
             <Panel.Body>
               <FormGroup controlId="userDepartmentTitle">
-                <ControlLabel><font size="3" color="black">Department: {userDepartment}</font></ControlLabel>
+              <h1><font size="3" ><b>Department: </b><font size="2" >{userDepartment}</font></font></h1>
               </FormGroup>
               <FormGroup controlId="userDescriptionTitle">
-                <ControlLabel><font size="3" color="black">Description: </font></ControlLabel>
+              <h1><font size="3" ><b>Description: </b></font></h1>
               </FormGroup>
               <FormGroup controlId="userDescription">
-                <ControlLabel><font size="2" color="black">{userDescription}</font></ControlLabel>
+              <h1><font size="2"><font size="2" >{userDescription}</font></font></h1>
               </FormGroup>
               <FormGroup controlId="userSkillstitle">
-                <ControlLabel><font size="3" color="black">Skills: </font></ControlLabel>
+              <h1><font size="3" ><b>Skills: </b></font></h1>
               </FormGroup>
               <FormGroup controlId="userSkills">
                 {this.renderUserSkills(userSkills)}
               </FormGroup>
               <FormGroup controlId="userEmailTitle">
-                <ControlLabel><font size="3" color="black">Email: {userEmail}</font></ControlLabel>
+              <h1><font size="3" ><b>Email: </b><font size="2" >{userEmail}</font></font></h1>
               </FormGroup>
               <FormGroup controlId="userStatusTitle">
-                <ControlLabel><font size="3" color="black">User status: {userStatus}</font></ControlLabel>
+              <h1><font size="3" ><b>User status: </b><font size="2" >{userStatus}</font></font></h1>
               </FormGroup>
               <FormGroup controlId="userStatusTitle">
-              <label><input type="checkbox" name="box" value={entry} />Check if you approve the request.</label>
+              <label><input type="checkbox" name="box" value={entry} /><font size="3" ><b>Check if you approve the request.</b></font></label>
               </FormGroup>
               
             </Panel.Body>
@@ -225,36 +228,30 @@ export default class ProjectApproval extends Component {
         {this.state.project &&
           <form >
             <FormGroup controlId="titlePage">
-              <ControlLabel><font size="4" color="blue">USER REQUEST TO JOIN PROJECT</font></ControlLabel>
+            <h1><font size="6" ><b>USER REQUEST TO JOIN PROJECT</b></font></h1>
             </FormGroup>
 
             {this.renderUSerPanels(this.state.User)}
 
-
-
-            <FormGroup controlId="projectNameTitle">
-              <ControlLabel><font size="4" color="blue">PROJECT NAME</font></ControlLabel>
-            </FormGroup>
-            <FormGroup controlId="projectName">
-              <ControlLabel><font size="3" color="black">{this.state.projectName}</font></ControlLabel>
-            </FormGroup>
+<h1><font size="6" ><b>PROJECT DETAILS</b></font></h1>
+ <h1><font size="4" ><b>Name: </b><font size="3" color="black">{this.state.projectName}</font></font></h1>
 
             <FormGroup controlId="projectDescriptiontitle">
-              <ControlLabel><font size="4" color="blue">PROJECT DESCRIPTION</font></ControlLabel>
+            <h1><font size="4" ><b>Description:</b></font></h1>
             </FormGroup>
             <FormGroup controlId="projectDescription">
-              <ControlLabel><font size="3" color="black">{this.state.projectDescription}</font></ControlLabel>
+            <h1><font size="3" >{this.state.projectDescription}</font></h1>
             </FormGroup>
 
             <FormGroup controlId="projectSkillsTitle">
-              <ControlLabel><font size="4" color="blue">DESIRED SKILLS</font></ControlLabel>
+            <h1><font size="4" ><b>Desired Skills:</b></font></h1>
             </FormGroup>
             <div className="skills">
               {this.renderSkills()}
             </div>
             {this.state.project.attachment &&
               <FormGroup>
-                <ControlLabel><font size="4" color="blue">ATTACHMENT</font></ControlLabel>
+                <h1><font size="4" ><b>Attachment: </b></font></h1>
                 <FormControl.Static>
                   <a
                     target="_blank"
@@ -267,14 +264,11 @@ export default class ProjectApproval extends Component {
               </FormGroup>}
 
             <FormGroup controlId="projectStatusTitle">
-              <ControlLabel><font size="4" color="blue">PROJECT STATUS</font></ControlLabel>
-            </FormGroup>
-            <FormGroup controlId="projectStatus">
-              <ControlLabel><font size="3" color="black">{this.state.projectStatus}</font></ControlLabel>
+            <h1><font size="4" ><b>Status:</b> <font size="3" color="black">{this.state.projectStatus}</font></font></h1>
             </FormGroup>
 
             <FormGroup controlId="projectCollaboratorsTitle">
-              <ControlLabel><font size="4" color="blue">COLLABORATORS</font></ControlLabel>
+            <h1><font size="4" ><b>Collaborators:</b></font></h1>
             </FormGroup>
             <div className="collabs">
               {this.renderCollaborators()}
