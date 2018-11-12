@@ -51,6 +51,7 @@ export default class Projects extends Component {
 
         const user = await this.getUser();
         const { userID, userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
+      
       this.setState({
         logedUserStatus: userStatus,
         user,
@@ -300,7 +301,7 @@ export default class Projects extends Component {
                 loadingText="Sending request..."
               />
             }
-             {!this.state.isCompleted && !(this.state.logedUserStatus === "Devloper") && !(this.state.logedUserStatus === "Developer, pending to become a Project Manager") && 
+             {!this.state.isCompleted && !(this.state.logedUserStatus === "Developer") && !(this.state.logedUserStatus === "Developer, pending to become a Project Manager") && 
              <LoaderButton
                 block
                 bsStyle="primary"

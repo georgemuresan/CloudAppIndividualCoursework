@@ -113,7 +113,9 @@ getMissingProjects(allProjects, myProjects) {
               {"Status: " + project.projectStatus + "; " + "Created: " + new Date(project.createdAt).toLocaleString()}
             </ListGroupItem>
           </LinkContainer>
-        : <LinkContainer
+        : <ListGroupItem>
+            {!(this.state.currentUserStatus === "Developer") &&
+            <LinkContainer
             key="new"
             to="/Project/new"
           >
@@ -122,8 +124,16 @@ getMissingProjects(allProjects, myProjects) {
             <font size="3">
                 <b>{"\uFF0B"} Create a new project</b>
                 </font>
-            </ListGroupItem>
+                </ListGroupItem>
           </LinkContainer>
+            }
+            {(this.state.currentUserStatus === "Developer") &&
+            <font size="3">
+                <b>All the current Projects within the company.</b>
+                </font>
+            }
+           
+          </ListGroupItem>
   );
   }
 
