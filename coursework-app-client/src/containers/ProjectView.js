@@ -44,8 +44,8 @@ export default class Projects extends Component {
       }
 
       await Auth.currentAuthenticatedUser()
-        .then(user => this.state.currentUserID = this.props.match.params.uid)
-        .catch(err => alert(err));
+      .then(user => this.state.currentUserID = user.username)
+      .catch(err => alert(err));
 
         const user = await this.getUser();
         const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
@@ -64,6 +64,8 @@ export default class Projects extends Component {
           checkPending = true;
         }
       const partOfTheProject = this.checkIfIncludesHim(this.state.currentUserID, collaborators);
+      
+      
       this.setState({
         project,
         projectStatus,
@@ -83,13 +85,13 @@ export default class Projects extends Component {
   }
 
   getUser() {
-    //alert(this.state.currentUserID);
+
     return API.get("User", `/User/${this.state.currentUserID}`);
   }
 
 
   checkIfIncludesHim(id, collaborators) {
-    
+
     var found = false;
     collaborators.forEach(function (entry) {
       
@@ -133,6 +135,8 @@ export default class Projects extends Component {
   }
 
   renderSkills() {
+
+  
 
     return (
       <ul>
@@ -212,6 +216,7 @@ export default class Projects extends Component {
       }
         this.setState({ isLoading: false });
       this.props.history.push(`/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`);
+      window.location.reload(false); 
     } catch (e) {
       alert(e);
       this.setState({ isLoading: false });
@@ -281,7 +286,7 @@ export default class Projects extends Component {
                 loadingText="Sending request..."
               />
             }
-             {!this.state.isCompleted && 
+             {!this.state.isCompleted && !this.state.logedUserStatus === "Devloper" && !this.state.logedUserStatus === "Developer, pending to become a Project Manager" &&
              <LoaderButton
                 block
                 bsStyle="primary"

@@ -71,8 +71,8 @@ myProjects(projects, thisUserID) {
   var myprojects = [];
   for (var i=0; i<projects.length; i++){
     const { userID, projectID, projectStatus, projectName, projectDescription, attributes, collaborators, attachment, projectPendingCollaborators } = projects[i];
-    for (var j=0; i<collaborators.length; i++){
-      var collaborator = JSON.parse(collaborators[i]);
+    for (var j=0; j<collaborators.length; j++){
+      var collaborator = JSON.parse(collaborators[j]);
       const { userID, userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = collaborator;
    
       if (userID === thisUserID){
@@ -80,6 +80,7 @@ myProjects(projects, thisUserID) {
       }
     }
   }
+  
   return myprojects;
 }
 
