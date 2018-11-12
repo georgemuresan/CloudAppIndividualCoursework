@@ -1,13 +1,10 @@
-# NOTE: update this with your service name
 service: projects-app-api
 
-# Use the serverless-webpack plugin to transpile ES6
+
 plugins:
   - serverless-webpack
   - serverless-offline
 
-# serverless-webpack configuration
-# Enable auto-packing of external modules
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
@@ -18,15 +15,6 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: us-east-1
-  # To load environment variables externally
-  # rename env.example to env.yml and uncomment
-  # the following line. Also, make sure to not
-  # commit your env.yml.
-  #
-  #environment: ${file(env.yml):${self:provider.stage}}
-
-    # 'iamRoleStatements' defines the permission policy for the Lambda function.
-  # In this case Lambda functions are granted with permissions to access DynamoDB.
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -40,12 +28,6 @@ provider:
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 functions:
-  # Defines an HTTP API endpoint that calls the main function in create.js
-  # - path: url path is /notes
-  # - method: POST request
-  # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
-  #     domain api call
-  # - authorizer: authenticate using the AWS IAM role
   create:
     handler: create.main
     events:
@@ -63,9 +45,6 @@ functions:
           cors: true
           authorizer: aws_iam
   get:
-    # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /notes/{id}
-    # - method: GET request
     handler: get.main
     events:
       - http:
@@ -74,9 +53,6 @@ functions:
           cors: true
           authorizer: aws_iam
   getUserChosen:
-    # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /notes/{id}
-    # - method: GET request
     handler: getUserChosen.main
     events:
       - http:
@@ -85,9 +61,6 @@ functions:
           cors: true
           authorizer: aws_iam
   getUser:
-    # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /notes/{id}
-    # - method: GET request
     handler: getUser.main
     events:
       - http:
@@ -97,9 +70,6 @@ functions:
           authorizer: aws_iam
   
   list:
-    # Defines an HTTP API endpoint that calls the main function in list.js
-    # - path: url path is /notes
-    # - method: GET request
     handler: list.main
     events:
       - http:
@@ -109,9 +79,6 @@ functions:
           authorizer: aws_iam
   
   listUser:
-    # Defines an HTTP API endpoint that calls the main function in list.js
-    # - path: url path is /notes
-    # - method: GET request
     handler: listUser.main
     events:
       - http:
@@ -121,9 +88,6 @@ functions:
           authorizer: aws_iam
           
   update:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
-    # - method: PUT request
     handler: update.main
     events:
       - http:
@@ -132,9 +96,6 @@ functions:
           cors: true
           authorizer: aws_iam
   updateUserChosen:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
-    # - method: PUT request
     handler: updateUserChosen.main
     events:
       - http:
@@ -143,9 +104,6 @@ functions:
           cors: true
           authorizer: aws_iam
   updateUser:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
-    # - method: PUT request
     handler: updateUser.main
     events:
       - http:
@@ -154,9 +112,6 @@ functions:
           cors: true
           authorizer: aws_iam
   delete:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
     handler: delete.main
     events:
       - http:
@@ -165,9 +120,6 @@ functions:
           cors: true
           authorizer: aws_iam
   deleteUser:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
     handler: deleteUser.main
     events:
       - http:

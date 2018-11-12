@@ -1,5 +1,5 @@
 {
-  "body": "{\"projectName\":\"hello world\",\"projectDescription\":\"hello description\",\"attributes\":[\"boy\",\"girl\"],\"attachment\":\"hello.jpg\"}",
+  "body": "{\"projectName\":\"hello world\",\"projectDescription\":\"hello description\",\"attributes\":[\"one\",\"two\"]}",
   "requestContext": {
     "identity": {
       "cognitoIdentityId": "USER-SUB-1234"

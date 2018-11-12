@@ -28,7 +28,9 @@ export default class Projects extends Component {
       isCompleted: false,
       isPending: false,
       logedUserStatus: "",
-      user: null
+      user: null,
+      actualUserID: "",
+      alreadyAskedJoin: false
     };
   }
 
@@ -48,12 +50,12 @@ export default class Projects extends Component {
       .catch(err => alert(err));
 
         const user = await this.getUser();
-        const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
+        const { userID, userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = user;
       this.setState({
         logedUserStatus: userStatus,
-        user
+        user,
+        actualUserID: userID
       });
-
 
         var checkCompleted;
         if (projectStatus === "Completed"){
@@ -63,9 +65,9 @@ export default class Projects extends Component {
         if (projectStatus === "Pending"){
           checkPending = true;
         }
-      const partOfTheProject = this.checkIfIncludesHim(this.state.currentUserID, collaborators);
+      const partOfTheProject = this.checkIfIncludesHim(this.state.actualUserID, collaborators);
       
-      
+     
       this.setState({
         project,
         projectStatus,
@@ -79,11 +81,22 @@ export default class Projects extends Component {
         isCompleted: checkCompleted,
         isPending: checkPending
       });
+      this.updatealreadyAskedJoin(projectPendingCollaborators);
     } catch (e) {
       alert(e);
     }
   }
 
+  updatealreadyAskedJoin(projectPendingCollaborators){
+    
+    for (var i=0; i<projectPendingCollaborators.length; i++){
+      if (projectPendingCollaborators[i] === this.state.actualUserID){
+        this.setState({
+          alreadyAskedJoin: true
+        });
+      }
+    }
+  }
   getUser() {
 
     return API.get("User", `/User/${this.state.currentUserID}`);
@@ -179,7 +192,8 @@ export default class Projects extends Component {
 
     try {
 
-      this.setState({ isLoading: true});
+      this.setState({ isLoading: true,
+        alreadyAskedJoin: true});
 
       if (this.state.logedUserStatus === "Project Manager"){
 
@@ -199,7 +213,7 @@ export default class Projects extends Component {
         });
       } else {
       var pending = this.state.projectPendingCollaborators;
-      pending.push(this.state.currentUserID);
+      pending.push(this.state.actualUserID);
 
       this.setState({ projectPendingCollaborators: pending,
         includesCurrentUser : true
@@ -274,7 +288,7 @@ export default class Projects extends Component {
             </div>
 
 
-            {!this.state.includesCurrentUser && !this.checkIfPending(this.state.currentUserID) && !this.state.isCompleted && !this.state.isPending &&
+            {!this.state.includesCurrentUser && !this.checkIfPending(this.state.currentUserID) && !this.state.isCompleted && !this.state.isPending && !this.state.alreadyAskedJoin &&
 
               <LoaderButton
                 block
@@ -286,7 +300,7 @@ export default class Projects extends Component {
                 loadingText="Sending request..."
               />
             }
-             {!this.state.isCompleted && !this.state.logedUserStatus === "Devloper" && !this.state.logedUserStatus === "Developer, pending to become a Project Manager" &&
+             {!this.state.isCompleted && !(this.state.logedUserStatus === "Devloper") && !(this.state.logedUserStatus === "Developer, pending to become a Project Manager") && 
              <LoaderButton
                 block
                 bsStyle="primary"
