@@ -172,9 +172,8 @@ export default class NewProject extends Component {
 		var values = [];
 		for (var i = 0; i < list.length; i++) {
 			const { userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = list[i];
-			if (userStatus !== "Admin") {
-				values.push(<option value={JSON.stringify(list[i])}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
-			}
+			values.push(<option value={JSON.stringify(list[i])}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
+		
 		}
 		return (<div class="form-group">
 			<select multiple class="form-control" id="collabID" name="collaborators" onClick={this.handleCollaborators}>

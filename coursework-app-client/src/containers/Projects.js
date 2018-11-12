@@ -210,9 +210,9 @@ export default class Projects extends Component {
       if (usrSet.present) {
         values.push(<option selected={true} value={JSON.stringify(usrSet.user)}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
       } else {
-        if (userStatus !== "Admin"){
+  
         values.push(<option value={JSON.stringify(usrSet.user)}>Name: {userFirstName} {userLastName} ; Status: {userStatus} ; Department: {userDepartment}</option>);
-        }
+    
       }
     }
     return (<div class="form-group">

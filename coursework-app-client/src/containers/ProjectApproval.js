@@ -66,7 +66,7 @@ export default class ProjectApproval extends Component {
   }
 
   getUser(userID) {
-    return API.get("User", `/User/${userID}`);
+    return API.get("User", `/User/chosen/${userID}`);
   }
   getProject() {
     return API.get("Project", `/Project/specific/${this.props.match.params.uid}/id/${this.props.match.params.id}`);
@@ -165,7 +165,7 @@ export default class ProjectApproval extends Component {
     var order = [];
     for (var i = 0; i < this.state.projectPendingCollaborators.length; i++) {
       var entry = this.state.projectPendingCollaborators[i];
-
+  
       var user;
       users.forEach(function (entry2) {
         const { userID, userEmail, userStatus, userFirstName, userLastName, userDepartment, userDescription, userSkills } = entry2;

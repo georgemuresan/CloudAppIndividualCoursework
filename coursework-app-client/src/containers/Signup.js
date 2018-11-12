@@ -19,7 +19,8 @@ export default class Signup extends Component {
       password: "",
       confirmPassword: "",
       confirmationCode: "",
-      newUser: null
+      newUser: null,
+      allDepartments: ["Engineering", "Computer Science", "Environmental Studies", "Electronics", "Maths and Sciences"]
     };
   }
 
@@ -85,6 +86,7 @@ export default class Signup extends Component {
 
       this.props.userHasAuthenticated(true);
       this.props.history.push("/");
+      window.location.reload(false); 
     } catch (e) {
       alert(e.message);
       this.setState({ isLoading: false });
@@ -123,6 +125,35 @@ export default class Signup extends Component {
     );
   }
 
+  handleDepartmentChange = event => {
+    var selects = document.getElementsByName("dep");
+
+    var resultStat = "";
+    for (var i = 0, eachOption = selects.length; i < eachOption; i++) {
+      var opt = selects[i];
+      if (opt.selected) {
+        resultStat = opt.value;
+      }
+    }
+    this.setState({
+      userDepartment: resultStat
+    });
+  }
+  
+  renderDepatments() {
+
+    var values = [];
+    var depts = this.state.allDepartments;
+    for (var i = 0; i < depts.length; i++) {
+        values.push(<option value={depts[i]} selected name="dep" >{depts[i]}</option>);
+    }
+
+
+    return (<FormControl componentClass="select" placeholder="select" onChange={this.handleDepartmentChange}>
+      {values}
+    </FormControl>);
+  }
+
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -146,12 +177,7 @@ export default class Signup extends Component {
         </FormGroup>
         <FormGroup controlId="userDepartment" bsSize="large">
           <ControlLabel>Department</ControlLabel>
-          <FormControl
-            autoFocus
-            type="userDepartment"
-            value={this.state.userDepartment}
-            onChange={this.handleChange}
-          />
+          {this.renderDepatments()}
         </FormGroup>
         <FormGroup controlId="email" bsSize="large">
           <ControlLabel>Email</ControlLabel>

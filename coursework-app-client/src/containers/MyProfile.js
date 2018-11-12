@@ -98,6 +98,7 @@ export default class MyProfile extends Component {
         userSkills: this.state.userSkills,
       });
       this.props.history.push("/");
+      window.location.reload(false); 
     } catch (e) {
       alert(e);
       this.setState({ isLoading: false });
@@ -139,8 +140,7 @@ export default class MyProfile extends Component {
 
     try {
       await this.deletUser();
-      await Auth.signOut();
-
+      
       this.userHasAuthenticated(false);
       this.props.history.push("/login");
     } catch (e) {
